@@ -5,9 +5,16 @@ public class Vector extends Point {
         if(Double3.ZERO.equals(xyz)) {
             throw new IllegalArgumentException("zero vector");
         }
+
+    }
+    public Vector(int x, int y, int z) {
+        super(x, y, z);
+        if(Double3.ZERO.equals(xyz)) {
+            throw new IllegalArgumentException("zero vector");
+        }
     }
 
-    @Override
+        @Override
     public String toString() {
         return xyz.toString()+"->";
     }
