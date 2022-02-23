@@ -5,7 +5,7 @@ import static java.lang.System.out;
 /**
  * Test program for the 1st stage
  *
- * @author ron shaull
+ * @author ron shaull and asaf bigel.
  */
 public final class Main {
 
