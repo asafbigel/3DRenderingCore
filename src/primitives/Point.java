@@ -1,11 +1,9 @@
 package primitives;
 
-import java.util.Objects;
-
 public class Point {
-   Double3 xyz;
+   final Double3 xyz;
 
-    public Point(Double x,Double y,Double z) {
+    public Point(double x,double y,double z) {
 
         this.xyz=new Double3(x,y,z);
     }
@@ -24,9 +22,13 @@ public class Point {
     }
 
     public Point add(Vector v){
-        return new Point(xyz.d1+v.xyz.d1,xyz.d2+v.xyz.d2,xyz.d3+v.xyz.d3);
+        //return new Point(xyz.d1+v.xyz.d1,xyz.d2+v.xyz.d2,xyz.d3+v.xyz.d3);
+        Double3 d = xyz.add(v.xyz);
+        return new Point(d.d1,d.d2, d.d3);
     }
-    public Vector subtruct(Point p){
-        return new Vector(p.xyz.d1-xyz.d1,p.xyz.d2-xyz.d2,p.xyz.d3- xyz.d3);
+    public Vector subtract(Point p){
+        //return new Vector(xyz.d1-p.xyz.d1,xyz.d2-p.xyz.d2,xyz.d3- p.xyz.d3);
+        Double3 d = xyz.subtract(p.xyz);
+        return new Vector(d.d1, d.d2,d.d3);
     }
 }
