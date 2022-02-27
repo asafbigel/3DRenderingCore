@@ -1,4 +1,5 @@
 package geometries;
+
 import primitives.*;
 
 /**
@@ -12,6 +13,7 @@ public class Plane implements Geometry {
     /**
      * yet to be implemented, function returns the normal vector at a specific point on the plane.
      * notice:point must be on the plane.
+     *
      * @param p
      * @return
      */
@@ -22,15 +24,17 @@ public class Plane implements Geometry {
 
     /**
      * yet to be implemented, function return the normal vector to this plane at any point.
+     *
      * @return
      */
-    public Vector getNormal(){
+    public Vector getNormal() {
         return normal;
     }
 
     /**
      * ctor, at this point initiate a random point to the attribution point for this plane.
      * normal vector is yet to be calculated, will be.
+     *
      * @param q1
      * @param q2
      * @param q3
@@ -54,7 +58,8 @@ public class Plane implements Geometry {
      * 2nd ctor, difine a plane with a point and a vector.
      * initialize fields as such.
      * notice that the vector is being normalized.
-     * @param q0- primitive object point.
+     *
+     * @param q0-              primitive object point.
      * @param normal-primitive object vector.
      */
     public Plane(Point q0, Vector normal) {
@@ -64,6 +69,7 @@ public class Plane implements Geometry {
 
     /**
      * geter for point field.
+     *
      * @return
      */
     public Point getQ0() {
@@ -72,6 +78,7 @@ public class Plane implements Geometry {
 
     /**
      * to print a formated representation of a plane, using point and vector field.
+     *
      * @return
      */
     @Override

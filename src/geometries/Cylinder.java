@@ -1,4 +1,5 @@
 package geometries;
+
 import primitives.*;
 
 /**
@@ -6,13 +7,14 @@ import primitives.*;
  * object implements Geometry interface, and inherits from tube.
  * (Cylinder is a tube with a constant height).
  */
-public class Cylinder extends Tube{
+public class Cylinder extends Tube {
     double height;
 
     /**
      * ctor.
-     * @param axisRay-type Ray.
-     * @param radius-double, it is the radius of the base circle.
+     *
+     * @param axisRay-type    Ray.
+     * @param radius-double,  it is the radius of the base circle.
      * @param height-distance between circle bases.
      */
     public Cylinder(Ray axisRay, double radius, double height) {
@@ -23,6 +25,7 @@ public class Cylinder extends Tube{
     /**
      * getter for height field.
      * not all fields get a getter.
+     *
      * @return
      */
     public double getHeight() {
@@ -31,6 +34,7 @@ public class Cylinder extends Tube{
 
     /**
      * to print a format string representing a cylinder.
+     *
      * @return- formated string of a cylinder.
      */
     @Override
@@ -44,6 +48,7 @@ public class Cylinder extends Tube{
 
     /**
      * yet to be implemented, function returns the normal vector of this cylinder at a specific point.
+     *
      * @param p- the specific point.
      * @return-a primitive type new vector.
      */

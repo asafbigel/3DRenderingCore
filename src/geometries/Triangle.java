@@ -1,12 +1,14 @@
 package geometries;
+
 import primitives.Point;
 
 /**
  * a 3d geometric shape,
  */
-public class Triangle extends Polygon{
+public class Triangle extends Polygon {
     /**
      * ctor, gets 3 primitive points and uses polygon ctor to initialize the fields.
+     *
      * @param vertices-3 primitive points.
      */
     public Triangle(Point... vertices) {
@@ -15,6 +17,7 @@ public class Triangle extends Polygon{
 
     /**
      * to print a formated strign representing a triangle.
+     *
      * @return-formated string representing a triangle.
      */
     @Override
