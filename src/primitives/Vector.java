@@ -48,8 +48,7 @@ public class Vector extends Point {
      * @return- a new vector, witch values are the sum of the original vectors.
      */
     public Vector add(Vector v) {
-
-        return new Vector(xyz.add(v.xyz));
+        return new Vector(add(v).xyz);
     }
 
     /**
@@ -79,12 +78,14 @@ public class Vector extends Point {
     /**
      * function returns the length of this vector squared.
      *
-     * @return- length of this vector squared.
+     * @return- length of this vector squared
      */
     public double lengthSquared() {
-        //return xyz.d1*xyz.d1+ xyz.d2*xyz.d2+xyz.d3* xyz.d3;
-        Double3 d = xyz.product(xyz);
-        return d.d1 + d.d2 + d.d3;
+        // return xyz.d1*xyz.d1+ xyz.d2*xyz.d2+xyz.d3* xyz.d3;
+        // Double3 d = xyz.product(xyz);
+        // return d.d1 + d.d2 + d.d3;
+        return this.dotProduct(this);
+
     }
 
     /**
