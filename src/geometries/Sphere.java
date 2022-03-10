@@ -59,6 +59,7 @@ public class Sphere implements Geometry {
      * @return-the normal to this sphere at this point.
      */
     public Vector getNormal(Point p) {
-        return null;
+
+        return p.subtract(this.center).normalize();
     }
 }

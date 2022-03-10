@@ -19,7 +19,8 @@ public class Plane implements Geometry {
      */
     @Override
     public Vector getNormal(Point p) {
-        return null;
+
+        return getNormal();
     }
 
     /**
@@ -41,17 +42,9 @@ public class Plane implements Geometry {
      */
     public Plane(Point q1, Point q2, Point q3) {
         this.q0 = q1;
-        this.normal = null;
-        /*
-            * all this- to the sequel of the project
         Vector v1 = q3.subtract(q2);
         Vector v2 = q3.subtract(q1);
-
-            * can do at one line, but maybe it looks like anti Demeter low *
-        Vector normal1 = v1.crossProduct(v2);
-        normal1 = normal1.normalize();
-        this.normal = normal1;
-        */
+        normal = v1.crossProduct(v2).normalize();
     }
 
     /**
