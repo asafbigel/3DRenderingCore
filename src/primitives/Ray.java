@@ -1,7 +1,7 @@
 package primitives;
 
 /**
- * primitive object ray, composed by a point and a direction vector.
+ * primitive object ray, composed by a point and a direction vector
  */
 public class Ray {
     final Point p0;
