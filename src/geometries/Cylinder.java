@@ -1,6 +1,7 @@
 package geometries;
 
 import primitives.*;
+import static primitives.Util.isZero;
 
 /**
  * cylinder is a 3d geometric shape, composed out of primitives objects.
@@ -54,6 +55,17 @@ public class Cylinder extends Tube {
      */
     @Override
     public Vector getNormal(Point p) {
-        return null;
+
+        if (isZero(p.subtract(axisRay.getP0()).dotProduct(axisRay.getDir()))) {
+            return axisRay.getDir().scale(-1);
+        }
+        Point p1=axisRay.getP0().add(axisRay.getDir().scale(height));
+
+        if (isZero(p.subtract(p1).dotProduct(axisRay.getDir()))) {
+            return axisRay.getDir();
+        }
+
+        return super.getNormal(p);
+
     }
 }
