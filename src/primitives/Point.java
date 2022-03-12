@@ -9,9 +9,9 @@ public class Point {
     /**
      * ctor  for point object, must have all three parameters.
      *
-     * @param x
-     * @param y
-     * @param z
+     * @param x value
+     * @param y value
+     * @param z value
      */
     public Point(double x, double y, double z) {
 
@@ -67,10 +67,33 @@ public class Point {
      * fundtion subtructs tow points, creating a new vector.
      *
      * @param p- point type object.
-     * @return- a new vector.
+     * @return a new vector.
      */
     public Vector subtract(Point p) {
         //return new Vector(xyz.d1-p.xyz.d1,xyz.d2-p.xyz.d2,xyz.d3- p.xyz.d3);
         return new Vector(xyz.subtract(p.xyz));
+    }
+
+    /**
+     * distance squared between 2 points
+     *
+     * @param p another point
+     * @return the distance squared
+     */
+    public double distanceSquared(Point p) {
+        double x = xyz.d1 - p.xyz.d1;
+        double y = xyz.d2 - p.xyz.d2;
+        double z = xyz.d3 - p.xyz.d3;
+        return x * x + y * y + z * z;
+    }
+
+    /**
+     * distance between 2 points
+     *
+     * @param p another point
+     * @return the distance
+     */
+    public double distance(Point p) {
+        return Math.sqrt(distanceSquared(p));
     }
 }

@@ -36,9 +36,9 @@ public class Vector extends Point {
     }
 
     /**
-     * for printing formated string of a vector.
+     * for printing formatted string of a vector.
      *
-     * @return- formated string of a vector.
+     * @return formatted string of a vector.
      */
     @Override
     public String toString() {
@@ -50,17 +50,17 @@ public class Vector extends Point {
      * function adds tow vectr together, creating a new vector, to prevendt rots.
      *
      * @param v- another primitive object vector.
-     * @return- a new vector, witch values are the sum of the original vectors.
+     * @return a new vector, witch values are the sum of the original vectors.
      */
     public Vector add(Vector v) {
-        return new Vector(add(v).xyz);
+        return new Vector(xyz.add(v.xyz));
     }
 
     /**
      * function multiply a vector with a scalar.
      *
      * @param d1- the scalar we multiply our vector with.
-     * @return- a new vector.
+     * @return a new vector.
      */
     public Vector scale(double d1) {
         //return new Vector (xyz.d1*d, xyz.d2*d, xyz.d3*d);
@@ -71,7 +71,7 @@ public class Vector extends Point {
      * funtion preform a cross product on two vectors.
      *
      * @param v-other vector in the process.
-     * @return- a new vector, witch is the product.
+     * @return a new vector, witch is the product.
      */
     public Vector crossProduct(Vector v) {
         double x = xyz.d2 * v.xyz.d3 - xyz.d3 * v.xyz.d2;
@@ -83,7 +83,7 @@ public class Vector extends Point {
     /**
      * function returns the length of this vector squared.
      *
-     * @return- length of this vector squared
+     * @return length of this vector squared
      */
     public double lengthSquared() {
         // return xyz.d1*xyz.d1+ xyz.d2*xyz.d2+xyz.d3* xyz.d3;
@@ -96,7 +96,7 @@ public class Vector extends Point {
     /**
      * function returns the actuall length of a vector.
      *
-     * @return-length of this vector.
+     * @return length of this vector.
      */
     public double length() {
         return Math.sqrt(lengthSquared());
@@ -105,7 +105,7 @@ public class Vector extends Point {
     /**
      * function changes the length of this vector to be 1.
      *
-     * @return- a new vector, with the same direction, and length 1.
+     * @return a new vector, with the same direction, and length 1.
      */
     public Vector normalize() {
         return new Vector(xyz.reduce(length()));
@@ -115,7 +115,7 @@ public class Vector extends Point {
      * function perform a dot product process.
      *
      * @param v- the other vector in th process.
-     * @return- a scalar that is the product of the process.
+     * @return a scalar that is the product of the process.
      */
     public double dotProduct(Vector v) {
         //return xyz.d1*v.xyz.d1+ xyz.d2*v.xyz.d2+xyz.d3*v.xyz.d3;
