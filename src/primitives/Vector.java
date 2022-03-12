@@ -1,5 +1,7 @@
 package primitives;
 
+import static primitives.Util.isZero;
+
 /**
  * primitive type object vector.
  * inherits one field type xyz from calss point.
@@ -28,6 +30,9 @@ public class Vector extends Point {
      */
     public Vector(Double3 _xyz) {
         super(_xyz);
+        if (Double3.ZERO.equals(xyz)) {
+            throw new IllegalArgumentException("zero vector");
+        }
     }
 
     /**
