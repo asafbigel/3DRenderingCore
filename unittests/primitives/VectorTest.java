@@ -55,7 +55,7 @@ class VectorTest {
 
     @Test
     void normalize() {
-        // test vector normalization vs vector length and cross-product
+        // test vector normalization vs ve ctor length and cross-product
         Vector v = new Vector(1, 2, 3);
         Vector u = v.normalize();
         //tc: for a random vector, we normalize it and checks its length afterwards to make sure it's equal to 1.
