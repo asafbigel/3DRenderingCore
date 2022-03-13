@@ -18,6 +18,16 @@ class PointTest {
     //expected: both vectors should be equal.
     @Test
     void subtract() {
-        assertEquals (new Vector(1, 1, 1),(new Point(2, 3, 4).subtract(p1)),"ERROR: Point - Point does not work correctly");
+        assertEquals (new Vector(1, 1, 1),(new Point(2, 3, 4).subtract(p1)),"ERROR: Point - Point subtract does not work correctly");
+    }
+
+    @Test
+    void distanceSquared() {
+        assertEquals(new Point(1,1,1).distanceSquared( new Point(4,5,6)),50,0.001, "ERROR: Point - Point distanceSquared does not work correctly");
+    }
+
+    @Test
+    void distance() {
+        assertEquals(new Point(1,1,1).distance( new Point(4,5,1)),5,0.001, "ERROR: Point - Point distance does not work correctly");
     }
 }

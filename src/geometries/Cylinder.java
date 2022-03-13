@@ -24,10 +24,9 @@ public class Cylinder extends Tube {
     }
 
     /**
-     * getter for height field.
-     * not all fields get a getter.
+     * get height
      *
-     * @return
+     * @return height
      */
     public double getHeight() {
         return height;
@@ -36,7 +35,7 @@ public class Cylinder extends Tube {
     /**
      * to print a format string representing a cylinder.
      *
-     * @return- formated string of a cylinder.
+     * @return formated string of a cylinder.
      */
     @Override
     public String toString() {
@@ -51,17 +50,25 @@ public class Cylinder extends Tube {
      * yet to be implemented, function returns the normal vector of this cylinder at a specific point.
      *
      * @param p- the specific point.
-     * @return-a primitive type new vector.
+     * @return a primitive type new vector.
      */
     @Override
     public Vector getNormal(Point p) {
-
-        if (isZero(p.subtract(axisRay.getP0()).dotProduct(axisRay.getDir()))) {
+        try {
+            if (isZero(p.subtract(axisRay.getP0()).dotProduct(axisRay.getDir()))) {
+                return axisRay.getDir().scale(-1);
+            }
+        }
+        catch (IllegalArgumentException e){
             return axisRay.getDir().scale(-1);
         }
         Point p1=axisRay.getP0().add(axisRay.getDir().scale(height));
-
-        if (isZero(p.subtract(p1).dotProduct(axisRay.getDir()))) {
+        try {
+            if (isZero(p.subtract(p1).dotProduct(axisRay.getDir()))) {
+                return axisRay.getDir();
+            }
+        }
+        catch (IllegalArgumentException e){
             return axisRay.getDir();
         }
 

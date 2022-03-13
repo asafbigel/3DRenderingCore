@@ -21,14 +21,18 @@ public class Tube implements Geometry {
     }
 
     /**
-     * getters for the object fields.
+     * get axis ray
      *
-     * @return
+     * @return axis ray
      */
     public Ray getAxisRay() {
         return axisRay;
     }
-
+    /**
+     * get radius
+     *
+     * @return radius
+     */
     public double getRadius() {
         return radius;
     }
@@ -36,7 +40,7 @@ public class Tube implements Geometry {
     /**
      * to print a formated string representing a tube.
      *
-     * @return-formated string representation of a tube.
+     * @return formatted string representation of a tube.
      */
     @Override
     public String toString() {
@@ -50,13 +54,17 @@ public class Tube implements Geometry {
      * yet to be implemented, function returns the normal vector to the tube at a specific point.
      *
      * @param p-the point on the tube.
-     * @return-a new primitive object vector.
+     * @return a new primitive object vector.
      */
     @Override
     public Vector getNormal(Point p) {
 
         double t=this.axisRay.getDir().dotProduct(p.subtract(this.axisRay.getP0()));
-        Point O=this.axisRay.getP0().add(axisRay.getDir().scale(t));
+        //Point O=this.axisRay.getP0().add(axisRay.getDir().scale(t));
+        Point O =this.axisRay.getP0();
+        if (t != 0){
+            O = O.add(axisRay.getDir().scale(t));
+        }
         return p.subtract(O).normalize();
     }
 }
