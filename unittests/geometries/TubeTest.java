@@ -13,7 +13,8 @@ class TubeTest {
     void getNormal() {
 
         // ============ Equivalence Partitions Tests ==============
-        // center is (0,0,0), dir vector is (1,0,0), radius is 1
+        // tc00: creating a simple tube, and calculating its normal by hand.
+        //expect: the two vectors should be equal.
         Tube t = new Tube(new Ray(new Point(0,0,0),new Vector(1,0,0)),1);
         Vector normal1 = t.getNormal(new Point(1,1,0));
         assertEquals(normal1,(new Vector(0,1,0)), "Wrong tube normal");

@@ -12,6 +12,8 @@ class TriangleTest {
     void getNormal() {
 
         // ============ Equivalence Partitions Tests ==============
+        //tc00: like in plane, we create a simple triangle and calculate its normal by hand.
+        //expected: the normal can be at tow opposite directions, either one is a suitable answer.
         Triangle tr = new Triangle(new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 1, 0));
         double sqrt3 = Math.sqrt(1d / 3);
         Vector v = new Vector(sqrt3, sqrt3, sqrt3);

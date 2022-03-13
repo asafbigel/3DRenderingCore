@@ -12,6 +12,7 @@ class VectorTest {
 
     @Test
     void vector() {
+        //tc00: we create the zero vector, and expect an Exception.
         assertThrows(IllegalArgumentException.class, () -> new Vector(0,0,0),"Constructed a zero vector");
 //        assertThrows(IllegalArgumentException.class, //
 //                () -> new Vector(new Double3(0,0,0)),"Constructed a zero vector");
@@ -32,7 +33,7 @@ class VectorTest {
 
     @Test
     void crossProduct() {
-        // test Cross-Product
+        //tc: we cross product 2 parallel vectors, and as expected its returning the zero vector and thats an exception.
         assertThrows(IllegalArgumentException.class, () ->v1.crossProduct(v2),"ERROR: crossProduct() for parallel vectors does not throw an exception");
 
         Vector vr = v1.crossProduct(v3);
@@ -42,12 +43,13 @@ class VectorTest {
 
     @Test
     void lengthSquared() {
+        //tc: we manually calculate the length squared of one of the above vectors, and compare the answers.
         assertTrue(isZero(v1.lengthSquared() - 14), "ERROR: lengthSquared() wrong value");
     }
 
     @Test
     void length() {
-        // test length..
+        // tc: we use one pythagorean triples to calculate the length of a vector, and compare the answers.
         assertTrue(isZero(new Vector(0, 3, 4).length() - 5), "ERROR: length() wrong value");
     }
 
@@ -56,16 +58,19 @@ class VectorTest {
         // test vector normalization vs vector length and cross-product
         Vector v = new Vector(1, 2, 3);
         Vector u = v.normalize();
+        //tc: for a random vector, we normalize it and checks its length afterwards to make sure it's equal to 1.
         assertTrue(isZero(u.length() - 1), "ERROR: the normalized vector is not a unit vector");
-        // test that the vectors are co-lined
+        // tc: we make sure normalizing a vector does not affect its direction.
         assertThrows(IllegalArgumentException.class, () ->v.crossProduct(u), "ERROR: the normalized vector is not parallel to the original one");
+        //tc: as above we make sure normalizing a vector does not affect is direction this time turning it 180 deg.
         assertFalse (v.dotProduct(u) < 0,"ERROR: the normalized vector is opposite to the original one");
     }
 
     @Test
     void dotProduct() {
-        // test Dot-Product
+        // tc: we dot product two orthogonal vectors, and expecting to get zero, we use the is zero function to do so.
         assertTrue (isZero(v1.dotProduct(v3)),"ERROR: dotProduct() for orthogonal vectors is not zero");
+
         assertTrue (isZero(v1.dotProduct(v2) + 28), "ERROR: dotProduct() wrong value");
     }
 }
