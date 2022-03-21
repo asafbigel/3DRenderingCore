@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CylinderTest {
 
     @Test
-    void getNormal() {
+    void testGetNormal() {
         Cylinder c = new Cylinder(new Ray(new Point(0,0,0),new Vector(1,0,0)), 1 , 2);
         // ============ Equivalence Partitions Tests ==============
         Vector normal1 = c.getNormal(new Point(1,1,0));

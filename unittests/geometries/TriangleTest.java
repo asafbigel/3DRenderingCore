@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TriangleTest {
 
     @Test
-    void getNormal() {
+    void testGetNormal() {
 
         // ============ Equivalence Partitions Tests ==============
         //tc00: like in plane, we create a simple triangle and calculate its normal by hand.

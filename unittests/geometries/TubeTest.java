@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TubeTest {
 
     @Test
-    void getNormal() {
+    void testGetNormal() {
 
         // ============ Equivalence Partitions Tests ==============
         // tc00: creating a simple tube, and calculating its normal by hand.
