@@ -6,7 +6,6 @@ package geometries;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-import geometries.*;
 import primitives.*;
 
 /**
@@ -15,7 +14,7 @@ import primitives.*;
  * @author Dan
  *
  */
-public class PolygonTests {
+public class PolygonTest {
 
 	/**
 	 * Test method for {@link Polygon#Polygon(Point...)}.
@@ -80,5 +79,9 @@ public class PolygonTests {
 		Vector v1 = v.scale(-1);
 		Vector n = pl.getNormal(new Point(0, 0, 1));
 		assertTrue(v.equals(n) || v1.equals(n), "Bad normal to trinagle");
+	}
+
+	@Test
+	void findIntsersections() {
 	}
 }

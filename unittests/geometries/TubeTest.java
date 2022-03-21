@@ -23,4 +23,8 @@ class TubeTest {
         assertEquals(normal2,(new Vector(0,1,0)), "Wrong tube normal");
 
     }
+
+    @Test
+    void findIntsersections() {
+    }
 }

@@ -2,6 +2,8 @@ package geometries;
 
 import primitives.*;
 
+import java.util.List;
+
 /**
  * a geometric type, representing an infinite 2d plane.
  * using a primitive point and vector (direction).
@@ -80,5 +82,15 @@ public class Plane implements Geometry {
                 "q0=" + q0 +
                 ", normal=" + normal +
                 '}';
+    }
+    /**
+     * function finds intersaections between ray and the geometric shape (or entity).
+     *
+     * @param ray ray is shots from camera.
+     * @return a list of all the points that are on geometric shapes that our ray intersects with
+     */
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
     }
 }

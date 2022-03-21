@@ -20,4 +20,9 @@ class TriangleTest {
         Vector normal = tr.getNormal(new Point(0, 0, 1));
         assertTrue(v.equals(normal) || v.equals(normal.scale(-1)), "Bad normal to triangle");
     }
+
+    @Test
+    void findIntsersections() {
+        // ============ Equivalence Partitions Tests =============
+    }
 }

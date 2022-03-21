@@ -32,4 +32,8 @@ class PlaneTest {
         Vector normal = pl.getNormal(new Point(0, 0, 1));
         assertTrue(v.equals(normal) || v.equals(normal.scale(-1)), "Bad normal to plane");
     }
+
+    @Test
+    void findIntsersections() {
+    }
 }

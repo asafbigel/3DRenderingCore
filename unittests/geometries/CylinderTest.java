@@ -33,4 +33,8 @@ class CylinderTest {
         //excepted normal is the dir vector on the other way.(so it wont point inside the cylinder.
         assertEquals(normal5,(new Vector(-1,0,0)), "Wrong tube normal");
     }
+
+    @Test
+    void findIntsersections() {
+    }
 }
