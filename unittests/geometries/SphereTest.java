@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SphereTest {
 
     @Test
-    void getNormal() {
+    void testGetNormal() {
 
         // ============ Equivalence Partitions Tests ==============
         //tc00: creating a simple sphere, centered at axis origin, with a radius of 1, and cheking for its normal at a certing point.

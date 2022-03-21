@@ -22,7 +22,7 @@ class PlaneTest {
     }
 
     @Test
-    void getNormal() {
+    void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         //tc02: creating a simple plane, and constructing its normal values by hand.
         //expected: the get normal will return either the hand calculated normal, or the same vector on the other way.

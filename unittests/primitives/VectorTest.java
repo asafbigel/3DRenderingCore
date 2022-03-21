@@ -1,9 +1,7 @@
 package primitives;
 
-import geometries.Polygon;
 import org.junit.jupiter.api.Test;
 
-import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static primitives.Util.isZero;
@@ -11,7 +9,7 @@ import static primitives.Util.isZero;
 class VectorTest {
 
     @Test
-    void vector() {
+    void testConstructor() {
         //tc00: we create the zero vector, and expect an Exception.
         assertThrows(IllegalArgumentException.class, () -> new Vector(0,0,0),"Constructed a zero vector");
 //        assertThrows(IllegalArgumentException.class, //
@@ -23,16 +21,17 @@ class VectorTest {
     Vector v3 = new Vector(0, 3, -2);
 
     @Test
-    void add() {
-
+    void testAdd() {
+        assertEquals(v1.add(v2), new Vector(-1,-2,-3),"ERROR: add() for vectors does not work");
     }
 
     @Test
-    void scale() {
+    void testScale() {
+        assertEquals(v1.scale(-2), v2,"ERROR: scale() for vectors does not work");
     }
 
     @Test
-    void crossProduct() {
+    void testCrossProduct() {
         //tc: we cross product 2 parallel vectors, and as expected its returning the zero vector and thats an exception.
         assertThrows(IllegalArgumentException.class, () ->v1.crossProduct(v2),"ERROR: crossProduct() for parallel vectors does not throw an exception");
 
@@ -42,19 +41,19 @@ class VectorTest {
     }
 
     @Test
-    void lengthSquared() {
+    void testLengthSquared() {
         //tc: we manually calculate the length squared of one of the above vectors, and compare the answers.
         assertTrue(isZero(v1.lengthSquared() - 14), "ERROR: lengthSquared() wrong value");
     }
 
     @Test
-    void length() {
+    void testLength() {
         // tc: we use one pythagorean triples to calculate the length of a vector, and compare the answers.
         assertTrue(isZero(new Vector(0, 3, 4).length() - 5), "ERROR: length() wrong value");
     }
 
     @Test
-    void normalize() {
+    void testNormalize() {
         // test vector normalization vs vector length and cross-product
         Vector v = new Vector(1, 2, 3);
         Vector u = v.normalize();
@@ -67,7 +66,7 @@ class VectorTest {
     }
 
     @Test
-    void dotProduct() {
+    void testDotProduct() {
         // tc: we dot product two orthogonal vectors, and expecting to get zero, we use the is zero function to do so.
         assertTrue (isZero(v1.dotProduct(v3)),"ERROR: dotProduct() for orthogonal vectors is not zero");
 
