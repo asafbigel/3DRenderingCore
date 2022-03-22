@@ -82,6 +82,6 @@ public class PolygonTest {
 	}
 
 	@Test
-	void findIntsersections() {
+	void testFindIntsersections() {
 	}
 }

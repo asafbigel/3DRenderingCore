@@ -25,6 +25,6 @@ class TubeTest {
     }
 
     @Test
-    void findIntsersections() {
+    void testFindIntsersections() {
     }
 }

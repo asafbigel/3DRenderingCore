@@ -22,11 +22,13 @@ class VectorTest {
 
     @Test
     void testAdd() {
+
         assertEquals(v1.add(v2), new Vector(-1,-2,-3),"ERROR: add() for vectors does not work");
     }
 
     @Test
     void testScale() {
+
         assertEquals(v1.scale(-2), v2,"ERROR: scale() for vectors does not work");
     }
 

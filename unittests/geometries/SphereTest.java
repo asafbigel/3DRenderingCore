@@ -25,7 +25,7 @@ class SphereTest {
     }
 
     @Test
-    void findIntsersections() {
+    void testFindIntsersections() {
         Sphere sphere = new Sphere(new Point(1, 0, 0), 1);
 
         // ============ Equivalence Partitions Tests ==============
