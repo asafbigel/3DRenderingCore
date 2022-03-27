@@ -64,7 +64,7 @@ class SphereTest {
         assertEquals(new Point(1,0,1), result.get(0), "Ray crosses sphere in one point");
         // TC12: Ray starts at sphere and goes outside (0 points)
         assertNull(sphere.findIntersections(new Ray(new Point(1, 1, 0),
-                new Vector(0, -1, 1))),"TC12:Ray starts at sphere and goes outside");
+                new Vector(0, 1, -1))),"TC12:Ray starts at sphere and goes outside");
 
         // **** ====Group: Ray's line goes through the center=====
 
@@ -95,7 +95,7 @@ class SphereTest {
                 new Vector(1, 0, 0))),"TC17: Ray starts at sphere and goes outside");
         // TC18: Ray starts after sphere (0 points)
         assertNull(sphere.findIntersections(new Ray(new Point(3, 0, 0),
-                new Vector(-1, 0, 0))),"TC18: Ray starts after sphere");
+                new Vector(1, 0, 0))),"TC18: Ray starts after sphere");
 
         // **** Group: Ray's line is tangent to the sphere (all tests 0 points)
 
