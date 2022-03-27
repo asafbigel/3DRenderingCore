@@ -55,7 +55,7 @@ class PlaneTest {
                 new Vector(0,-2,0))),"tc10: Ray is parallel to the plane, and not included in the plane.");
         //tc11:included in plane.
         assertNull(p.findIntersections(new Ray(new Point(7,4,0),
-                new Vector(0,-2,0))),"tc11:Ray is parallel to the plane, and included in plane.");
+                new Vector(0,-2,0))),"tc11:Ray is parallel  to the plane, and included in plane.");
 
         //**** group: Ray is orthogonal to plane.
         //tc12:p0 is before plane.
