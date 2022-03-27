@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -91,6 +92,21 @@ public class Plane implements Geometry {
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        // case parallel
+        if (getNormal().dotProduct(ray.getDir()) == 0){
+            return null;
+        }
+        // try is to catch case that ray's point and Q0 is same (so we will get zero vector)
+        try {
+            double t = (getNormal().dotProduct(getQ0().subtract(ray.getP0()))) / (getNormal().dotProduct(ray.getDir()));
+        if (t<=0)
+            return null;
+        LinkedList<Point> l1 = new LinkedList<Point>();
+        l1.add(ray.getP0().add(ray.getDir().scale(t)));
+        return l1;
+        }
+        catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 }
