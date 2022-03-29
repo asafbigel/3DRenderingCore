@@ -17,7 +17,7 @@ public class Geometries implements Intersectable{
      * @param geometries
      */
     public Geometries(Intersectable... geometries){
-
+        shapes= List.of(geometries);
     }
 
 
@@ -25,7 +25,9 @@ public class Geometries implements Intersectable{
      * @param geometries
      */
     public void add(Intersectable... geometries){
-
+        for (Intersectable i:geometries) {
+            shapes.add(i);
+        }
     }
 
     /**
