@@ -97,6 +97,10 @@ public class Point {
         return Math.sqrt(distanceSquared(p));
     }
 
+    /**
+     * function simply return the x value of this point.
+     * @return -x value (as a double) of this point.
+     */
     public double getX() {
         return xyz.d1;
     }
