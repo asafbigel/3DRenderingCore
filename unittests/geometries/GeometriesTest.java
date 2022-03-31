@@ -14,7 +14,7 @@ class GeometriesTest {
     void testFindIntersections() {
         //TODO: implement this tests!
         //tc11: empty List of shapes.
-        //tc12: no intersection with any of the shapes.
+        //tc12: no intersection with any of the shape s.
         //tc13: only one shapes itersects.
         //tc14: sum of the shapes intersects and some don't.
         //tc15: all shapes intersects in scene.
