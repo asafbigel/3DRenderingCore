@@ -25,7 +25,8 @@ class CylinderTest {
         //normal shoud be the dir vector but in the opposite way.
         assertEquals(normal3,(new Vector(-1,0,0)), "Wrong tube normal");
         // =============== Boundary Values Tests ==================
-        Vector normal4 = c.getNormal(new Point(2,0,0));
+        Vector normal4 = c.getNormal(new Point(2,0,
+                0));
         //tc03: a point at the very end of the base, we defines the normal to be the dir vector.
         assertEquals(normal4,(new Vector(1,0,0)), "Wrong tube normal");
         Vector normal5 = c.getNormal(new Point(0,0,0));

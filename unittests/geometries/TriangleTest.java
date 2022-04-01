@@ -27,7 +27,7 @@ class TriangleTest {
     @Test
     void testFindIntsersections() {
         // ============ Equivalence Partitions Tests =============
-        Triangle t=new Triangle(new Point(2,0,0),new Point(0,2,0),new Point(0,0,0));
+        Triangle t=new Triangle(new Point(2,0,0),new Point(0,2,0),new Point(-1,0,0));
         //tc00: Ray intersects inside the triangle.
         List<Point> result=t.findIntersections(new Ray(new Point(0.5,0.5,1),new Vector(0,0,-1)));
         assertEquals(1,result.size(),"number of intersections is invalid.");

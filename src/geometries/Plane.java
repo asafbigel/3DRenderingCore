@@ -5,6 +5,8 @@ import primitives.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import static primitives.Util.*;
+
 /**
  * a geometric type, representing an infinite 2d plane.
  * using a primitive point and vector (direction).
@@ -17,8 +19,8 @@ public class Plane implements Geometry {
      * yet to be implemented, function returns the normal vector at a specific point on the plane.
      * notice:point must be on the plane.
      *
-     * @param p
-     * @return
+     * @param p point on the shape
+     * @return tne normal at this point
      */
     @Override
     public Vector getNormal(Point p) {
@@ -29,7 +31,7 @@ public class Plane implements Geometry {
     /**
      * yet to be implemented, function return the normal vector to this plane at any point.
      *
-     * @return
+     * @return The normal vector to this plane at any point
      */
     public Vector getNormal() {
         return normal;
@@ -39,9 +41,9 @@ public class Plane implements Geometry {
      * ctor, at this point initiate a random point to the attribution point for this plane.
      * normal vector is yet to be calculated, will be.
      *
-     * @param q1
-     * @param q2
-     * @param q3
+     * @param q1 point 1
+     * @param q2 point 2
+     * @param q3 point 3
      */
     public Plane(Point q1, Point q2, Point q3) {
         this.q0 = q1;
@@ -66,7 +68,7 @@ public class Plane implements Geometry {
     /**
      * geter for point field.
      *
-     * @return
+     * @return Q0- the point field
      */
     public Point getQ0() {
         return q0;
@@ -75,7 +77,7 @@ public class Plane implements Geometry {
     /**
      * to print a formated representation of a plane, using point and vector field.
      *
-     * @return
+     * @return "(X,Y,Z)+t(x,y,z)"
      */
     @Override
     public String toString() {
@@ -93,15 +95,15 @@ public class Plane implements Geometry {
     @Override
     public List<Point> findIntersections(Ray ray) {
         // case parallel
-        if (getNormal().dotProduct(ray.getDir()) == 0){
+        if (isZero(getNormal().dotProduct(ray.getDir()))){
             return null;
         }
         // try is to catch case that ray's point and Q0 is same (so we will get zero vector)
         try {
-            double t = (getNormal().dotProduct(getQ0().subtract(ray.getP0()))) / (getNormal().dotProduct(ray.getDir()));
+            double t = alignZero((getNormal().dotProduct(getQ0().subtract(ray.getP0()))) / (getNormal().dotProduct(ray.getDir())));
         if (t<=0)
             return null;
-        LinkedList<Point> l1 = new LinkedList<Point>();
+        LinkedList<Point> l1 = new LinkedList<>();
         l1.add(ray.getP0().add(ray.getDir().scale(t)));
         return l1;
         }
