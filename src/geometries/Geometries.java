@@ -45,7 +45,7 @@ public class Geometries implements Intersectable{
                 if (l== null)
                     l = newL;
                 else
-                    l.addAll(shape.findIntersections(ray));
+                    l.addAll(newL);
             }
         }
         return l;
