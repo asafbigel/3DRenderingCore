@@ -9,12 +9,12 @@ public class Geometries implements Intersectable{
     List<Intersectable> shapes;
 
    public Geometries(){
-        shapes=new LinkedList<Intersectable>();
+        shapes=new LinkedList<>();
         //we choose linked list because the complexity of adding and deleting an object is better than array list.
     }
 
     /**
-     * @param geometries
+     * @param geometries The geometries
      */
     public Geometries(Intersectable... geometries){
         shapes= List.of(geometries);
@@ -22,12 +22,10 @@ public class Geometries implements Intersectable{
 
 
     /**
-     * @param geometries
+     * @param geometries The geometries
      */
     public void add(Intersectable... geometries){
-        for (Intersectable i:geometries) {
-            shapes.add(i);
-        }
+        shapes.addAll(List.of(geometries));
     }
 
     /**
@@ -38,6 +36,18 @@ public class Geometries implements Intersectable{
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        List<Point> l = null;
+        List<Point> newL;
+        for (Intersectable shape:shapes) {
+            newL=shape.findIntersections(ray);
+            // case there are intersections with this shape
+            if (newL != null){
+                if (l== null)
+                    l = newL;
+                else
+                    l.addAll(newL);
+            }
+        }
+        return l;
     }
 }
