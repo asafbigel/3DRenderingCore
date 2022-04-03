@@ -13,7 +13,7 @@ class GeometriesTest {
     //tc00:testing that we can add shapes to shapes.
     @Test
     void testAdd() {
-       // Geometries g1 = new Geometries(new Sphere(new Point(1,1,1),1));
+       // Geometries g1 =  new Geometries(new Sphere(new Point(1,1,1),1));
        // Geometries g2 = new Geometries( new Plane(new Point(0,0,0),new Point(5,6,7), new Point(4,9,1)));
     }
 
