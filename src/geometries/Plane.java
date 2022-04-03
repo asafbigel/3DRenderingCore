@@ -104,7 +104,8 @@ public class Plane implements Geometry {
         if (t<=0)
             return null;
         LinkedList<Point> l1 = new LinkedList<>();
-        l1.add(ray.getP0().add(ray.getDir().scale(t)));
+        l1.add(ray.getPoint(t));
+        //l1.add(ray.getP0().add(ray.getDir().scale(t)));
         return l1;
         }
         catch (IllegalArgumentException e) {
