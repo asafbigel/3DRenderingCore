@@ -98,7 +98,8 @@ public class Plane implements Geometry {
         if (isZero(getNormal().dotProduct(ray.getDir()))){
             return null;
         }
-        // try is to catch case that ray's point and Q0 is same (so we will get zero vector)
+        // try is to catch case that ray's point and Q0 is same point, that will lead us to compute the
+        // zer vector.
         try {
             double t = alignZero((getNormal().dotProduct(getQ0().subtract(ray.getP0()))) / (getNormal().dotProduct(ray.getDir())));
         if (t<=0)

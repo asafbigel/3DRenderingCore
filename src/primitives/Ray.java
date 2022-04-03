@@ -60,11 +60,12 @@ public class Ray {
     }
 
     /**
-     * Get a point on the ray
-     * @param t the t of the (v+t*u): the scalar of the ray
-     * @return the new point
+     * get a specific point on the ray (that is matches t value).
+     * @param t the t of the (v+t*u): the scalar of the ray.
+     * @return a new point.
      */
     public Point getPoint(double t){
+
         return p0.add(dir.scale(t));
     }
 }
