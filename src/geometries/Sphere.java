@@ -77,7 +77,6 @@ public class Sphere implements Geometry {
         try {
             Vector u = center.subtract(ray.getP0());
             double tm = ray.getDir().dotProduct(u);
-
             double d = Math.sqrt(u.lengthSquared() - (tm * tm));
             if (d >= radius)
                 return null;
@@ -86,10 +85,10 @@ public class Sphere implements Geometry {
                 return null;
             LinkedList<Point> l1 = new LinkedList<>();
             l1.add(ray.getPoint(tm + th));
-            //l1.add(ray.getP0().add(ray.getDir().scale(tm + th)));
+            //l1.add(ray.getP0().add(ray.getDir().scale(tm + th))); refactor
             if (tm > th)
                 l1.add(ray.getPoint(tm - th));
-                //l1.add(ray.getP0().add(ray.getDir().scale(tm - th)));
+                //l1.add(ray.getP0().add(ray.getDir().scale(tm - th)));refactor.
             return l1;
         } catch (IllegalArgumentException e) {
             LinkedList<Point> l1 = new LinkedList<>();
