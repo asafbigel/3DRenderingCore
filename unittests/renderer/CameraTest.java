@@ -10,7 +10,7 @@ import primitives.*;
 /**
  * Testing Camera Class
  * 
- * @author Dan
+ * @author ron shaull and asaf bigel.
  *
  */
 class CameraTest {
