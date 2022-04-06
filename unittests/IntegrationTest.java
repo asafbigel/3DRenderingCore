@@ -54,7 +54,7 @@ class IntegrationTest {
         assertEquals(sumOfIntersection(c2,s5),0,"TC05");
     }
     @Test
-    void testIntegrationWithTriangle() {
+    void testIntegrationWithPlane() {
         Camera c1= new Camera(new Point(1,1,1),new Vector(-1,0,0),new Vector(0,1,0)).setVPDistance(1).setVPSize(3,3);
         Plane p1 = new Plane(new Point(-1,-1,-1),new Vector(-1,0,0));
         /**
@@ -77,7 +77,7 @@ class IntegrationTest {
         assertEquals(sumOfIntersection(c1,p3),6,"TC13");
     }
     @Test
-    void testIntegrationWithPlane() {
+    void testIntegrationWithTriangle() {
         Camera c1= new Camera(new Point(0,0,5),new Vector(0,0,-1),new Vector(0,1,0)).setVPDistance(1).setVPSize(3,3);
         Triangle t1 = new Triangle(new Point(0,1,-2),new Point(1,-1,-2),new Point(-1,-1,-2));
         /**
