@@ -14,6 +14,8 @@ public class Camera {
     private double height;
     private double width;
     private double distance;
+    private ImageWriter iw;
+    private RayTracerBase rtb;
 
     /**
      * getter for Point p0.
@@ -99,6 +101,16 @@ public class Camera {
         return this;
     }
 
+    public Camera setIw(ImageWriter iw) {
+        this.iw = iw;
+        return this;
+    }
+
+    public Camera setRtb(RayTracerBase rtb) {
+        this.rtb = rtb;
+        return this;
+    }
+
     public Ray constructRay(int nX, int nY, int j, int i) {
         //image center.
         Point pc=p0.add(vTo.scale(distance));
@@ -117,4 +129,14 @@ public class Camera {
         return new Ray(p0,Pij.subtract(p0));
         //return null;
     }
+    public void renderImage(){
+        
+    }
+    /**
+     *  private double height;
+     *     private double width;
+     *     private double distance;
+     *     private ImageWriter iw;
+     *     private RayTracerBase rtb;
+     */
 }

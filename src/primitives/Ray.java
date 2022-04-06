@@ -1,5 +1,7 @@
 package primitives;
 
+import java.util.List;
+
 /**
  * primitive object ray, composed by a point and a direction vector
  */
@@ -67,5 +69,18 @@ public class Ray {
     public Point getPoint(double t){
 
         return p0.add(dir.scale(t));
+    }
+
+    Point findClosestPoint(List<Point> pointList){
+        double min=Double.POSITIVE_INFINITY;
+        Point p1=null;
+        for (Point p:pointList) {
+            double dis=this.p0.distance(p);
+            if (dis<min){
+                min=dis;
+                p1=p;
+            }
+        }
+        return p1;
     }
 }

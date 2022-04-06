@@ -4,6 +4,8 @@ package primitives;
  * primotive object point.
  */
 public class Point {
+    public static final Point ZERO = new Point(0,0,0);
+
     final Double3 xyz;
 
     /**
@@ -99,6 +101,7 @@ public class Point {
 
     /**
      * function simply return the x value of this point.
+     *
      * @return -x value (as a double) of this point.
      */
     public double getX() {
