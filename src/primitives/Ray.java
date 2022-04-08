@@ -30,7 +30,6 @@ public class Ray {
     }
 
     /**
-     *
      * @return Dir
      */
     public Vector getDir() {
@@ -63,22 +62,25 @@ public class Ray {
 
     /**
      * get a specific point on the ray (that is matches t value).
+     *
      * @param t the t of the (v+t*u): the scalar of the ray.
      * @return a new point.
      */
-    public Point getPoint(double t){
+    public Point getPoint(double t) {
 
         return p0.add(dir.scale(t));
     }
 
-    Point findClosestPoint(List<Point> pointList){
-        double min=Double.POSITIVE_INFINITY;
-        Point p1=null;
-        for (Point p:pointList) {
-            double dis=this.p0.distance(p);
-            if (dis<min){
-                min=dis;
-                p1=p;
+    public Point findClosestPoint(List<Point> pointList) {
+        if (pointList==null)
+            return null;
+        double min = Double.POSITIVE_INFINITY;
+        Point p1 = null;
+        for (Point p : pointList) {
+            double dis = this.p0.distance(p);
+            if (dis < min) {
+                min = dis;
+                p1 = p;
             }
         }
         return p1;
