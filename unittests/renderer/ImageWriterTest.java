@@ -17,6 +17,10 @@ class ImageWriterTest {
     }
 
     @Test
+    /**
+     * this test is for writeToImage class, creating an image of background color of
+     * yellow, and a grid colored red.
+     */
     void writeToImage() {
         ImageWriter iw = new ImageWriter("first try", 800, 500);
         for (int j = 0; j < 800; j++) {

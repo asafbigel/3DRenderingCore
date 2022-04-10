@@ -16,9 +16,9 @@ public abstract class RayTracerBase {
 
     /**
      * public method for returning the color of first
-     * intersection point with r.
-     * @param r ray that we cast.
-     * @return Color instance with point rgb color values.
+     * intersection point with ray r.
+     * @param r ray that we cast (from camera object, see camera implementation.)
+     * @return Color instance with point rgb color values (type of Color witch contains double3 type.).
      */
     public abstract Color traceRay(Ray r);
 }
