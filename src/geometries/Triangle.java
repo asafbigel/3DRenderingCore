@@ -55,4 +55,5 @@ public class Triangle extends Polygon {
             return l1;
         return null;
     }
+
 }

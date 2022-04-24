@@ -1,11 +1,11 @@
 package geometries;
 import primitives.Point;
 import primitives.Ray;
-
+import scene.Scene;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Geometries implements Intersectable{
+public class Geometries extends Intersectable{
     List<Intersectable> shapes;
 
    public Geometries(){
@@ -49,5 +49,20 @@ public class Geometries implements Intersectable{
             }
         }
         return l;
+    }
+
+    /**
+     * each subclass of this intersectable will implement this part of
+     * nvi function above.
+     *
+     * @param ray Ray of intersection. (a cast ray)
+     * @return List of all Geopoint intersections.
+     */
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<GeoPoint> intersections = null;
+        for (Geometry geometry : Scene.geometries)
+            var geoIntersections = geometry.findGeoIntersections(ray);
+        return intersections;
     }
 }

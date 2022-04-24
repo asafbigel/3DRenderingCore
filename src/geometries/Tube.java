@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 3d shape, it is a cylinder with infinite height.
  */
-public class Tube implements Geometry {
+public class Tube extends Geometry {
     Ray axisRay;
     double radius;
 
@@ -78,6 +78,18 @@ public class Tube implements Geometry {
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
+        return null;
+    }
+
+    /**
+     * each subclass of this intersectable will implement this part of
+     * nvi function above.
+     *
+     * @param ray Ray of intersection. (a cast ray)
+     * @return List of all Geopoint intersections.
+     */
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         return null;
     }
 }

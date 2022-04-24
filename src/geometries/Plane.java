@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import static primitives.Util.*;
  * a geometric type, representing an infinite 2d plane.
  * using a primitive point and vector (direction).
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
     Point q0;
     Vector normal;
 
@@ -112,5 +113,24 @@ public class Plane implements Geometry {
         catch (IllegalArgumentException e) {
             return null;
         }
+    }
+
+    /**
+     * each subclass of this intersectable will implement this part of
+     * nvi function above.
+     *
+     * @param ray Ray of intersection. (a cast ray)
+     * @return List of all Geopoint intersections.
+     */
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<Point> intersections= this.findIntersections(ray);
+        if (intersections==null)
+            return null;
+        List<GeoPoint> Geointersections=new ArrayList<>();
+        for (Point p:intersections) {
+            Geointersections.add(new GeoPoint(this,p));
+        }
+        return Geointersections;
     }
 }

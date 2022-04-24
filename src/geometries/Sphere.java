@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * a 3d geometric shape sphere.
  * represented with primitive objects point for canter and radius.
  */
-public class Sphere implements Geometry {
+public class Sphere extends Geometry {
     Point center;
     double radius;
 
@@ -95,5 +96,24 @@ public class Sphere implements Geometry {
             l1.add(center.add(ray.getDir().scale(radius)));
             return l1;
         }
+    }
+
+    /**
+     * each subclass of this intersectable will implement this part of
+     * nvi function above.
+     *
+     * @param ray Ray of intersection. (a cast ray)
+     * @return List of all Geopoint intersections.
+     */
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<Point> intersections= this.findIntersections(ray);
+        if (intersections==null)
+            return null;
+        List<GeoPoint> Geointersections=new ArrayList<>();
+        for (Point p:intersections) {
+            Geointersections.add(new GeoPoint(this,p));
+        }
+        return Geointersections;
     }
 }
