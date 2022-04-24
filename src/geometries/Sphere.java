@@ -110,6 +110,7 @@ public class Sphere extends Geometry {
         List<Point> intersections= this.findIntersections(ray);
         if (intersections==null)
             return null;
+      //  return List.of(new GeoPoint(this,),…)
         List<GeoPoint> Geointersections=new ArrayList<>();
         for (Point p:intersections) {
             Geointersections.add(new GeoPoint(this,p));

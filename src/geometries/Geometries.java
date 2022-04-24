@@ -61,8 +61,16 @@ public class Geometries extends Intersectable{
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         List<GeoPoint> intersections = null;
-        for (Geometry geometry : Scene.geometries)
-            var geoIntersections = geometry.findGeoIntersections(ray);
+        //for (Geometry geometry : Scene.geometries) {
+        for (Intersectable shape:shapes) {
+            var geoIntersections = shape.findGeoIntersections(ray);
+            if (geoIntersections != null){
+                if (intersections == null)
+                    intersections = geoIntersections;
+                else
+                    intersections.addAll(geoIntersections);
+            }
+        }
         return intersections;
     }
 }

@@ -17,7 +17,7 @@ public class AmbientLight {
      * @param d reduction factor, must be >1.
      */
     public AmbientLight(Color intensity, Double3 d) {
-       this.intensity=intensity.reduce(d);
+       this.intensity=intensity.scale(d);
     }
 
     /**

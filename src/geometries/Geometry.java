@@ -13,9 +13,9 @@ public abstract class Geometry extends Intersectable {
      * @param emission Color type object with value.
      * @return this.emission, a Color type value.
      */
-    public Color setEmission(Color emission) {
+    public Geometry setEmission(Color emission) {
         this.emission = emission;
-        return this.emission;
+        return this;
     }
 
     /**
