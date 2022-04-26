@@ -23,9 +23,9 @@ public class Triangle extends Polygon {
     }
 
     /**
-     * to print a formated strign representing a triangle.
+     * to print a formatted string representing a triangle.
      *
-     * @return-formated string representing a triangle.
+     * @return formatted string representing a triangle.
      */
     @Override
     public String toString() {
@@ -57,7 +57,7 @@ public class Triangle extends Polygon {
     }
 
     public List<GeoPoint> findGeoIntersections(Ray ray){
-        List<GeoPoint> l1 = new Plane(this.vertices.get(0),this.getNormal(this.vertices.get(0))).findGeoIntersections(ray);
+        List<GeoPoint> l1 = new Plane(this.vertices.get(0),this.getNormal(this.vertices.get(0))).setEmission(this.getEmission()).findGeoIntersections(ray);
         if (l1 == null) //case1: ray in parallel to triangle plane.
             return null;
         Vector v1=this.vertices.get(0).subtract(ray.getP0());
