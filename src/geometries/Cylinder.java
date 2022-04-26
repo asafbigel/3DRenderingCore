@@ -55,7 +55,7 @@ public class Cylinder extends Tube {
      * @return a list of all the points that are on geometric shapes that our ray intersects with
      */
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersections(Ray ray) {
         return null;
     }
     /**

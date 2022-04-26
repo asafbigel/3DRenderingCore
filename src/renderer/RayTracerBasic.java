@@ -32,10 +32,15 @@ public class RayTracerBasic extends RayTracerBase{
            return scene.background;
        return calcColor(intersection);
          */
+        //create list of all intersection point with r.
         var intersections = scene.geometries.findGeoIntersections(r);
+        //if there is no intersection then we see background color.
         if (intersections == null) return scene.background;
+        //if we do have intersections, we only see the closest intersection point.
         GeoPoint closestPoint = r.findClosestGeoPoint(intersections);
+        //now we want to add color to point, so we use Geopoint.
         return calcColor(closestPoint);
+        //calColor function is below.
 
     }
 
@@ -49,6 +54,7 @@ public class RayTracerBasic extends RayTracerBase{
         return scene.ambientLight.getIntensity();
     }
     private Color calcColor(GeoPoint gp) {
+        //now we add the emission light, wich is the light that scatter from shape surface.
         return scene.ambientLight.getIntensity()
                 .add(gp.geometry.getEmission());
     }

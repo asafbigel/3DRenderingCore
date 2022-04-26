@@ -25,17 +25,6 @@ public class Polygon extends Geometry {
     private int size;
 
     /**
-     * function finds intersaections between ray and the geometric shape (or entity).
-     *
-     * @param ray ray is shots from camera.
-     * @return a list of all the points that are on geometric shapes that our ray intersects with
-     */
-    @Override
-    public List<Point> findIntersections(Ray ray) {
-        return null;
-    }
-
-    /**
      * each subclass of this intersectable will implement this part of
      * nvi function above.
      *
@@ -44,14 +33,7 @@ public class Polygon extends Geometry {
      */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        List<Point> intersections= this.findIntersections(ray);
-        if (intersections==null)
-            return null;
-        List<GeoPoint> Geointersections=new ArrayList<>();
-        for (Point p:intersections) {
-            Geointersections.add(new GeoPoint(this,p));
-        }
-        return Geointersections;
+        return null;
     }
 
     /**

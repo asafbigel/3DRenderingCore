@@ -9,7 +9,11 @@ public abstract class Intersectable {
      * @param ray ray is shots from camera.
      * @return a list of all the points that are on geometric shapes that our ray intersects with
      */
-    public abstract List<Point> findIntersections(Ray ray);
+    public List<Point> findIntersections(Ray ray) {
+        var geoList = findGeoIntersections(ray);
+        return geoList == null ? null
+                : geoList.stream().map(gp -> gp.point).toList();
+    }
 
     /**
      * non virtual interface function, each class that extends this class
