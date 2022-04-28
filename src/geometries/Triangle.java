@@ -57,9 +57,17 @@ public class Triangle extends Polygon {
     }
 
     public List<GeoPoint> findGeoIntersections(Ray ray){
-        List<GeoPoint> l1 = new Plane(this.vertices.get(0),this.getNormal(this.vertices.get(0))).setEmission(this.getEmission()).findGeoIntersections(ray);
+        /*create a new plane first and sets its emission light with this triangle
+        emission light (so they would have the same color.),
+        and then finding its geopoint with findGeointersection function (of that plane).
+        */
+        List<GeoPoint> l1 = new Plane(this.vertices.get(0),this.getNormal(this.vertices.get(0))).
+                setEmission(this.getEmission()).findGeoIntersections(ray);
         if (l1 == null) //case1: ray in parallel to triangle plane.
             return null;
+        /*after that we check the signs of all constructed vectors to see rather there
+        is an intersection in triangle or not.
+        */
         Vector v1=this.vertices.get(0).subtract(ray.getP0());
         Vector v2=this.vertices.get(1).subtract(ray.getP0());
         Vector v3=this.vertices.get(2).subtract(ray.getP0());

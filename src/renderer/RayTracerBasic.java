@@ -54,7 +54,10 @@ public class RayTracerBasic extends RayTracerBase{
         return scene.ambientLight.getIntensity();
     }
     private Color calcColor(GeoPoint gp) {
-        //now we add the emission light, wich is the light that scatter from shape surface.
+        /**now we add the emission light, which is the light that scatter from shape surface.
+         * remainder that we work by phong lighting model, that is additive.
+         * so we simply ADD the emission light to point color.
+         */
         return scene.ambientLight.getIntensity()
                 .add(gp.geometry.getEmission());
     }
