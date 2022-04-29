@@ -26,6 +26,14 @@ public abstract class Geometry extends Intersectable {
     }
 
     /**
+     * get Material
+     * @return Material
+     */
+    public Material getMaterial() {
+        return material;
+    }
+
+    /**
      * getter for emission light field, which distinguished the shape color that
      * comes back to our eye.
      * default value is black.(when there is no lighting).

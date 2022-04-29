@@ -10,7 +10,7 @@ abstract class Light {
      * @param intensity Color type, distinguish light intensity, contains double3 type
      *                  and reduction factor.
      */
-    public Light(Color intensity) {
+    protected Light(Color intensity) {
         this.intensity = intensity;
     }
 
