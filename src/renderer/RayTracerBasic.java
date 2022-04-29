@@ -1,11 +1,12 @@
 package renderer;
 
-import primitives.Color;
-import primitives.Point;
-import primitives.Ray;
+import lighting.LightSource;
+import primitives.*;
 import scene.Scene;
 import java.util.List;
 import geometries.Intersectable.GeoPoint;
+
+import static primitives.Util.alignZero;
 
 public class RayTracerBasic extends RayTracerBase{
     /**
@@ -39,7 +40,7 @@ public class RayTracerBasic extends RayTracerBase{
         //if we do have intersections, we only see the closest intersection point.
         GeoPoint closestPoint = r.findClosestGeoPoint(intersections);
         //now we want to add color to point, so we use Geopoint.
-        return calcColor(closestPoint);
+        return calcColor(closestPoint,r);
         //calColor function is below.
 
     }
@@ -53,13 +54,34 @@ public class RayTracerBasic extends RayTracerBase{
     private Color calcColor(Point p){
         return scene.ambientLight.getIntensity();
     }
-    private Color calcColor(GeoPoint gp) {
+    private Color calcColor(GeoPoint gp,Ray ray) {
         /**now we add the emission light, which is the light that scatter from shape surface.
          * remainder that we work by phong lighting model, that is additive.
          * so we simply ADD the emission light to point color.
          */
         return scene.ambientLight.getIntensity()
-                .add(gp.geometry.getEmission());
+                .add(gp.geometry.getEmission())
+                .add(calcLocalEffects(gp, ray));
+    }
+
+    private Color calcLocalEffects(GeoPoint intersection, Ray ray) {
+        Vector v = ray.getDir ();
+        Vector n = intersection.geometry.getNormal(intersection.point);
+        double nv = alignZero(n.dotProduct(v));
+        if (nv == 0) return Color.BLACK;
+        int nShininess = intersection.geometry.getMaterial().getnShininess();
+        //double kd = intersection.geometry.getMaterial().getkD(), ks = intersection.geometry.getKs();
+        Color color = Color.BLACK;
+        for (LightSource lightSource : scene.lights) {
+            Vector l = lightSource.getL(intersection.point);
+            double nl = alignZero(n.dotProduct(l));
+            color=color.add(lightSource.getIntensity(intersection.point));
+           // if (nl * nv > 0) { // sign(nl) == sing(nv)
+               // Color lightIntensity = lightSource.getIntensity(intersection.point);
+                //color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+                      //  calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+            }
+        return color;
     }
 
 }

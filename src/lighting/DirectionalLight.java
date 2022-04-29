@@ -1,8 +1,7 @@
 package lighting;
 
-import primitives.Color;
-import primitives.Point;
-import primitives.Vector;
+import primitives.*;
+
 
 public class DirectionalLight extends Light implements LightSource{
     private Vector direction;
@@ -12,13 +11,19 @@ public class DirectionalLight extends Light implements LightSource{
         this.direction = direction;
     }
 
+    /**
+     * get light intensity for directional light
+     * @param p an intersection point.
+     * @return the light source intensity.
+     */
     @Override
     public Color getIntensity(Point p) {
-        return null;
+        return getIntensity();
+        //in directional light the intensity is the same as source.
     }
 
     @Override
     public Vector getL(Point p) {
-        return null;
+        return this.direction;
     }
 }

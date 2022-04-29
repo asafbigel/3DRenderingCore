@@ -1,7 +1,6 @@
 package lighting;
 
-import primitives.Color;
-import primitives.Point;
+import primitives.*;
 
 public class PointLight extends Light implements LightSource{
     /**
@@ -27,7 +26,7 @@ public class PointLight extends Light implements LightSource{
 
     /**
      * reduction factor setter
-     * @param kC double type, must be <1 and >0.
+     * @param kL double type, must be <1 and >0.
      * @return this instance, builder design pattern.
      */
     public PointLight setkL(double kL) {
@@ -37,11 +36,34 @@ public class PointLight extends Light implements LightSource{
 
     /**
      * reduction factor setter
-     * @param kC double type, must be <1 and >0.
+     * @param kQ double type, must be <1 and >0.
      * @return this instance, builder design pattern.
      */
     public PointLight setkQ(double kQ) {
         this.kQ = kQ;
         return this;
+    }
+
+    /**
+     * gets light intensity which distinguish light color as well.
+     *
+     * @param p an intersection point.
+     * @return Color type hold double3 type of rgb values.
+     */
+    @Override
+    public Color getIntensity(Point p) {
+        double d=p.subtract(position).length();
+        return getIntensity().reduce(kC+kL*d+kQ*d*d);
+    }
+
+    /**
+     * i don't know yet!!
+     *
+     * @param p
+     * @return
+     */
+    @Override
+    public Vector getL(Point p) {
+        return p.subtract(this.position);
     }
 }

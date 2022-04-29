@@ -1,8 +1,6 @@
 package lighting;
 
-import primitives.Color;
-import primitives.Point;
-import primitives.Vector;
+import primitives.*;
 
 public class SpotLight extends  PointLight{
 
@@ -11,5 +9,16 @@ public class SpotLight extends  PointLight{
     public SpotLight(Color intensity, Point position, Vector direction) {
         super(intensity, position);
         Direction = direction;
+    }
+    @Override
+    public Color getIntensity(Point p){
+        double d=getL(p).dotProduct(Direction);
+        if (d<=0)
+            return Color.BLACK;
+        return super.getIntensity(p).scale(d);
+    }
+
+    public SpotLight setNarrowBeam(double i) {
+        return this;
     }
 }

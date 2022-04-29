@@ -26,6 +26,23 @@ public class Material {
         this.kD=new Double3(kD);
         return this;
     }
+
+    /**
+     *
+     * @return
+     */
+    public Double3 getkD() {
+        return kD;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Double3 getkS() {
+        return kS;
+    }
+
     /**
      * setter for kS field.
      * @param kS Double3 type.
@@ -53,5 +70,9 @@ public class Material {
     public Material  setnShininess(int nShininess) {
         this.nShininess = nShininess;
         return this;
+    }
+
+    public int getnShininess() {
+        return nShininess;
     }
 }

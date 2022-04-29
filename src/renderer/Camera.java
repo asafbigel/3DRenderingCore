@@ -187,7 +187,7 @@ public class Camera {
      * from RAyTracer param.
      * this function does not return a value.
      */
-    public void renderImage() {
+    public Camera renderImage() {
         if (height == 0 || width == 0 || iw == null || rtb == null) {
             throw new MissingResourceException("not enough variables.", "Camera", "1");
         }
@@ -196,6 +196,7 @@ public class Camera {
                 Color c = castRay(j,i);
                 iw.writePixel(i, j, c);
             }
+        return this;
     }
 
     /**
