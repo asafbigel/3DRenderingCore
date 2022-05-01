@@ -3,6 +3,7 @@ package renderer;
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
+import java.lang.Math;
 import java.util.List;
 import geometries.Intersectable.GeoPoint;
 
@@ -55,7 +56,8 @@ public class RayTracerBasic extends RayTracerBase{
         return scene.ambientLight.getIntensity();
     }
     private Color calcColor(GeoPoint gp,Ray ray) {
-        /**now we add the emission light, which is the light that scatter from shape surface.
+        /**
+         * now we add the emission light, which is the light that scatter from shape surface.
          * remainder that we work by phong lighting model, that is additive.
          * so we simply ADD the emission light to point color.
          */
@@ -65,23 +67,43 @@ public class RayTracerBasic extends RayTracerBase{
     }
 
     private Color calcLocalEffects(GeoPoint intersection, Ray ray) {
-        Vector v = ray.getDir ();
+        Vector v = ray.getDir();
         Vector n = intersection.geometry.getNormal(intersection.point);
         double nv = alignZero(n.dotProduct(v));
         if (nv == 0) return Color.BLACK;
         int nShininess = intersection.geometry.getMaterial().getnShininess();
-        //double kd = intersection.geometry.getMaterial().getkD(), ks = intersection.geometry.getKs();
+        double kd = intersection.geometry.getkD(), ks = intersection.geometry.getKs();
         Color color = Color.BLACK;
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(intersection.point);
             double nl = alignZero(n.dotProduct(l));
-            color=color.add(lightSource.getIntensity(intersection.point));
-           // if (nl * nv > 0) { // sign(nl) == sing(nv)
-               // Color lightIntensity = lightSource.getIntensity(intersection.point);
-                //color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-                      //  calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+            //color=color.add(lightSource.getIntensity(intersection.point));
+            if (nl * nv > 0) { // sign(nl) == sing(nv)
+                Color lightIntensity = lightSource.getIntensity(intersection.point);
+                   color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+
             }
+        }
         return color;
     }
 
+    private Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
+        l=l.normalize();
+        Vector r = l.subtract(n.scale(2*l.dotProduct(n))).normalize();
+        double d = alignZero(-v.dotProduct(r));
+        if (d <= 0)
+            return Color.BLACK;
+        return lightIntensity.scale(ks * Math.pow(d,nShininess));
+       //return lightIntensity.scale(ks * Math.pow(v.scale(-1).dotProduct(r),nShininess));
+    }
+
+    private Color calcDiffusive(double kd, Vector l, Vector n, Color lightIntensity) {
+        l = l.normalize();
+        double d = kd * l.dotProduct(n);
+        if (d<0) d= -d;
+        return lightIntensity.scale(d);
+    }
+
 }
+

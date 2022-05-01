@@ -62,7 +62,7 @@ public class Triangle extends Polygon {
         and then finding its geopoint with findGeointersection function (of that plane).
         */
         List<GeoPoint> l1 = new Plane(this.vertices.get(0),this.getNormal(this.vertices.get(0))).
-                setEmission(this.getEmission()).findGeoIntersections(ray);
+                setEmission(this.getEmission()).setMaterial(this.getMaterial() ).findGeoIntersections(ray);
         if (l1 == null) //case1: ray in parallel to triangle plane.
             return null;
         /*after that we check the signs of all constructed vectors to see rather there
