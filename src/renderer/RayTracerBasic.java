@@ -81,12 +81,12 @@ public class RayTracerBasic extends RayTracerBase{
         Double3 kd = intersection.geometry.getMaterial().getkD(), ks = intersection.geometry.getMaterial().getkS();
         Color color = Color.BLACK;
         for (LightSource lightSource : scene.lights) {
-            Vector l = lightSource.getL(intersection.point);
+            Vector l = lightSource.getL(intersection.point).normalize();
             double nl = alignZero(n.dotProduct(l));
             //color=color.add(lightSource.getIntensity(intersection.point));
             if (nl * nv > 0) { // sign(nl) == sing(nv)
                 Color lightIntensity = lightSource.getIntensity(intersection.point);
-                   color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+                   color = color.add(calcDiffusive(kd, nl, lightIntensity),
                         calcSpecular(ks, l, n, v, nShininess, lightIntensity));
 
             }
@@ -106,7 +106,6 @@ public class RayTracerBasic extends RayTracerBase{
      * @return Color type that is the specular effect of this point.
      */
     private Color calcSpecular(Double3 ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
-        l=l.normalize();
         Vector r = l.subtract(n.scale(2*l.dotProduct(n))).normalize();
         double d = alignZero(-v.dotProduct(r));
         if (d <= 0)
@@ -118,18 +117,14 @@ public class RayTracerBasic extends RayTracerBase{
     /**
      * function claculate the diffusive effect of a point that intersects with light beam.
      * @param kd  attenuation factor.
-     * @param l light beam vector (from light source to shape).
-     * @param n normal of shape, in intersection point.
+     * @param nl light beam vector (from light source to shape) * normal of shape, in intersection point.
      * @param lightIntensity light source intensity.
      * @return Color type, that is the deffusive effect of this point.
      */
-    private Color calcDiffusive(Double3 kd, Vector l, Vector n, Color lightIntensity) {
-        l = l.normalize();
+    private Color calcDiffusive(Double3 kd, double nl, Color lightIntensity) {
        // double d = kd.scale(l.dotProduct(n));
-        double d = (l.dotProduct(n));
-        if (d<0) d= -d;
-
-        return lightIntensity.scale(kd).scale(d);
+        if (nl<0) nl= -nl;
+        return lightIntensity.scale(kd).scale(nl);
     }
 
 }
