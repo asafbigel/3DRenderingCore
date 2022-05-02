@@ -183,7 +183,7 @@ public class Camera {
     }
 
     /**
-     * uses Image Writer parameter to color the picture pixel by the color returned
+     * uses  Image Writer parameter to color the picture pixel by the color returned
      * from RAyTracer param.
      * this function does not return a value.
      */
