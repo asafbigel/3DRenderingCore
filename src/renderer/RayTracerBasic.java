@@ -87,7 +87,7 @@ public class RayTracerBasic extends RayTracerBase{
             if (nl * nv > 0) { // sign(nl) == sing(nv)
                 Color lightIntensity = lightSource.getIntensity(intersection.point);
                    color = color.add(calcDiffusive(kd, nl, lightIntensity),
-                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                        calcSpecular(ks, l, n,nl, v,  nShininess, lightIntensity));
 
             }
         }
@@ -101,12 +101,13 @@ public class RayTracerBasic extends RayTracerBase{
      * @param l light beam vector (from light source to shape).
      * @param n normal of shape, in intersection point.
      * @param v camera ray we cast.
+     * @param nl n*l
      * @param nShininess how much does the shapes' surface area is reflective.
      * @param lightIntensity light source intensity.
      * @return Color type that is the specular effect of this point.
      */
-    private Color calcSpecular(Double3 ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
-        Vector r = l.subtract(n.scale(2*l.dotProduct(n))).normalize();
+    private Color calcSpecular(Double3 ks, Vector l, Vector n, double nl, Vector v, int nShininess, Color lightIntensity) {
+        Vector r = l.subtract(n.scale(2*nl)).normalize();
         double d = alignZero(-v.dotProduct(r));
         if (d <= 0)
             return Color.BLACK;
