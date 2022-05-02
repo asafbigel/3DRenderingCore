@@ -64,6 +64,11 @@ public class Scene {
         return this;
     }
 
+    /**
+     * setter for lights list.
+     * @param lights a list of type Lightsource, holding all lights in the scene.
+     * @return this object for builder design pattern.
+     */
     public Scene setLights(List<LightSource> lights) {
         this.lights = lights;
         return this;

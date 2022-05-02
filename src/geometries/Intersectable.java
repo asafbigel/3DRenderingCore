@@ -48,6 +48,11 @@ public abstract class Intersectable {
             this.point = point;
         }
 
+        /**
+         * equals function override.
+         * @param o an objecct type, to compare.
+         * @return boolean type true if objects are equal false otherwise.
+         */
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;

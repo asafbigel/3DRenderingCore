@@ -66,6 +66,12 @@ public class RayTracerBasic extends RayTracerBase{
                 .add(calcLocalEffects(gp, ray));
     }
 
+    /**
+     * function claculate the local effect of all light sources on one geopoint.
+     * @param intersection an intersection point on a specific shape, that we want to know it's color.
+     * @param ray the ray that we casted that intersected in that point.
+     * @return the point color, so we could right its pixel to the image.
+     */
     private Color calcLocalEffects(GeoPoint intersection, Ray ray) {
         Vector v = ray.getDir();
         Vector n = intersection.geometry.getNormal(intersection.point);
@@ -88,6 +94,17 @@ public class RayTracerBasic extends RayTracerBase{
         return color;
     }
 
+    /**
+     * function claculate the specular light effect of a light ray intersects with shape.
+     * and add it to the phong additive model.
+     * @param ks  attenuation factor
+     * @param l light beam vector (from light source to shape).
+     * @param n normal of shape, in intersection point.
+     * @param v camera ray we cast.
+     * @param nShininess how much does the shapes' surface area is reflective.
+     * @param lightIntensity light source intensity.
+     * @return Color type that is the specular effect of this point.
+     */
     private Color calcSpecular(Double3 ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
         l=l.normalize();
         Vector r = l.subtract(n.scale(2*l.dotProduct(n))).normalize();
@@ -98,6 +115,14 @@ public class RayTracerBasic extends RayTracerBase{
        //return lightIntensity.scale(ks * Math.pow(v.scale(-1).dotProduct(r),nShininess));
     }
 
+    /**
+     * function claculate the diffusive effect of a point that intersects with light beam.
+     * @param kd  attenuation factor.
+     * @param l light beam vector (from light source to shape).
+     * @param n normal of shape, in intersection point.
+     * @param lightIntensity light source intensity.
+     * @return Color type, that is the deffusive effect of this point.
+     */
     private Color calcDiffusive(Double3 kd, Vector l, Vector n, Color lightIntensity) {
         l = l.normalize();
        // double d = kd.scale(l.dotProduct(n));
