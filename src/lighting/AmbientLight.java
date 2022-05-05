@@ -14,8 +14,12 @@ public class AmbientLight extends Light {
     public AmbientLight(Color intensity, Double3 d) {
        super(intensity.scale(d));
     }
+    public AmbientLight(Color intensity, double d) {
+       super(intensity.scale(d));
+    }
 
     /**
+     * default ctor setting color to be black.
      * default ctor setting color to be black.
      * if there is no light then the color of objects is black.
      * nnotice that we use parent ctor.

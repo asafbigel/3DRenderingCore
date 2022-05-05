@@ -55,11 +55,19 @@ public abstract class Geometry extends Intersectable {
 
     public abstract Vector getNormal(Point p);
 
-    public double getkD() {
-        return material.getkD()
+    /**
+     * getter for kD attenuation factor (diffuse light)
+     * @return Double3 type of the attenuation factor.
+     */
+    public Double3 getkD() {
+        return material.getkD();
     }
 
-    public double getKs() {
-        return material.getkS().getX();
+    /**
+     * getter for Ks attenuation factor. (specular light).
+     * @return Double3 type of the attenuation factor.
+     */
+    public Double3 getKs() {
+        return material.getkS();
     }
 }

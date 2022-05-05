@@ -23,7 +23,8 @@ public abstract class Intersectable {
      * @return List of all Geopoint intersections.
      */
     public List<GeoPoint> findGeoIntersections(Ray ray){
-        return findGeoIntersectionsHelper(ray);
+
+      return findGeoIntersectionsHelper(ray);
     }
 
     /**
@@ -73,5 +74,6 @@ public abstract class Intersectable {
                     '}';
         }
     }
+
 
 }

@@ -87,7 +87,7 @@ public class RayTracerBasic extends RayTracerBase {
             Vector l = lightSource.getL(intersection.point).normalize();
             double nl = alignZero(n.dotProduct(l));
             //color=color.add(lightSource.getIntensity(intersection.point));
-            if (nl * nv > 0 && unshaded(intersection,l, n)) { // sign(nl) == sing(nv)
+            if (nl * nv > 0 && unshaded(intersection,l, n,lightSource)) { // sign(nl) == sing(nv)
                 Color lightIntensity = lightSource.getIntensity(intersection.point);
                 color = color.add(calcDiffusive(kd, nl, lightIntensity),
                         calcSpecular(ks, l, n, nl, v, nShininess, lightIntensity));
@@ -133,16 +133,23 @@ public class RayTracerBasic extends RayTracerBase {
         return lightIntensity.scale(kd).scale(nl);
     }
 
-    private boolean unshaded(GeoPoint gp, Vector l, Vector n) {
+    private boolean unshaded(GeoPoint gp, Vector l, Vector n,LightSource lightSource) {
         Vector lightDirection = l.scale(-1); // from point to light source
 
-        Vector epsVector = n.scale(DELTA);
+        Vector epsVector =n.scale(n.dotProduct(lightDirection)>0?DELTA:-DELTA); //we want to know either we need to move in the direction of the normal or not
+        //because the normal can be inwards.
         Point point = gp.point.add(epsVector);//moving point outside the shape so we can see it.
 
-        Ray lightRay = new Ray(point, lightDirection);
+        Ray lightRay = new Ray(point, lightDirection);// a ray from intersection point to light source, and if there is an intersection with other shape then piont of ray is shaded.
         List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
-        return intersections == null;
-
+        if (intersections==null)
+            return true;
+        double distance=lightSource.getDistance(gp.point);
+        for (GeoPoint Geopoint:intersections) {
+            if (gp.point.subtract(Geopoint.point).length()<distance)
+                return false;
+        }
+        return true;
     }
 }
 
