@@ -28,12 +28,6 @@ public class RayTracerBasic extends RayTracerBase{
      */
     @Override
     public Color traceRay(Ray r) {
-        /*
-       Point intersection=r.findClosestPoint(scene.geometries.findIntersections(r));
-       if (intersection==null)
-           return scene.background;
-       return calcColor(intersection);
-         */
         //create list of all intersection point with r.
         var intersections = scene.geometries.findGeoIntersections(r);
         //if there is no intersection then we see background color.
