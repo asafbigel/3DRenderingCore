@@ -56,7 +56,7 @@ public abstract class Geometry extends Intersectable {
     public abstract Vector getNormal(Point p);
 
     public double getkD() {
-        return material.getkD().getX();
+        return material.getkD()
     }
 
     public double getKs() {
