@@ -115,6 +115,12 @@ public class LightsTests {
 				.setRayTracer(new RayTracerBasic(scene2)) //
 				.renderImage() //
 				.writeToImage(); //
+		scene2.lights.add(new DirectionalLight(trCL.add(new Color(40,50,250)), trDL.add(new Vector(new Double3(0.05)))));
+		ImageWriter imageWriter1 = new ImageWriter("lightTrianglesPoint1", 500, 500);
+		camera2.setImageWriter(imageWriter1) //
+				.setRayTracer(new RayTracerBasic(scene2)) //
+				.renderImage() //
+				.writeToImage(); //
 	}
 
 	/**
@@ -143,6 +149,12 @@ public class LightsTests {
 
 		ImageWriter imageWriter = new ImageWriter("lightSphereSpotSharp", 500, 500);
 		camera1.setImageWriter(imageWriter) //
+				.setRayTracer(new RayTracerBasic(scene1)) //
+				.renderImage() //
+				.writeToImage(); //
+		scene1.lights.add(new DirectionalLight(trCL.add(new Color(40,50,250)), trDL.add(new Vector(new Double3(0.05)))));
+		ImageWriter imageWriter1 = new ImageWriter("lightSphereSpotSharp1", 500, 500);
+		camera1.setImageWriter(imageWriter1) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
 				.renderImage() //
 				.writeToImage(); //
