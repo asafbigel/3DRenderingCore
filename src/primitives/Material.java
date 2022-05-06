@@ -8,12 +8,12 @@ public class Material {
     int nShininess=0;
     public Double3 kT=new Double3(0.0),kR=new Double3(0.0);
 
-    public Material setkT(Double3 kT) {
+    public Material setKt(Double3 kT) {
         this.kT = kT;
         return this;
     }
 
-    public Material setkR(Double3 kR) {
+    public Material setKr(Double3 kR) {
         this.kR = kR;
         return this;
     }
@@ -59,7 +59,7 @@ public class Material {
      * @param kS Double3 type.
      * @return this instance for builder design pattern.
      */
-    public Material  setkS(Double3 kS) {
+    public Material setKs(Double3 kS) {
         this.kS = kS;
         return this;
     }
@@ -69,7 +69,7 @@ public class Material {
      * @param kS double type.
      * @return this instance for builder design pattern.
      */
-    public Material  setkS(double kS) {
+    public Material setKs(double kS) {
         this.kS = new Double3(kS);
         return this;
     }
@@ -78,7 +78,7 @@ public class Material {
      * @param nShininess Double3 type.
      * @return this instance for builder design pattern.
      */
-    public Material  setnShininess(int nShininess) {
+    public Material setShininess(int nShininess) {
         this.nShininess = nShininess;
         return this;
     }

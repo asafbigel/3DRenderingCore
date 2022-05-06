@@ -1,10 +1,12 @@
 package renderer;
 
+import geometries.Intersectable;
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
 
 import java.lang.Math;
+import java.util.ArrayList;
 import java.util.List;
 
 import geometries.Intersectable.GeoPoint;
@@ -60,39 +62,51 @@ public class RayTracerBasic extends RayTracerBase {
         return scene.ambientLight.getIntensity();
     }
 
-    private Color calcColor(GeoPoint gp, Ray ray,) {
+    private Color calcColor(GeoPoint gp, Ray ray) {
         /**
          * now we add the emission light, which is the light that scatter from shape surface.
          * remainder that we work by phong lighting model, that is additive.
          * so we simply ADD the emission light to point color.
          */
-        return calcColor(gp, ray, MAX_CALC_COLOR_LEVEL, MIN_CALC_COLOR_K)
+        return calcColor(gp, ray, MAX_CALC_COLOR_LEVEL, new Double3(MIN_CALC_COLOR_K))
                 .add(scene.ambientLight.getIntensity());
     }
 
-    private Color calcColor(GeoPoint geopoint, Ray ray, int level, double k) {
+    private Color calcColor(GeoPoint geopoint, Ray ray, int level, Double3 k) {
         Color color = calcLocalEffects(geopoint, ray);
         return 1 == level ? color : color.add(calcGlobalEffects(geopoint, ray.getDir(), level, k));
     }
 
-    private Color calcGlobalEffects(GeoPoint gp, Vector v, int level, double k) {
+    private Color calcGlobalEffects(GeoPoint gp, Vector v, int level, Double3 k) {
         Color color = Color.BLACK;
         Vector n = gp.geometry.getNormal(gp.point);
         Material material = gp.geometry.getMaterial();
-        Double3 kkr = material.kR.scale(k);
+        Double3 kkr = material.kR.product(k);
         if (!kkr.lowerThan(MIN_CALC_COLOR_K))
-            color = calcGlobalEffect(constructReflectedRay(gp.point, v, n), level, material.kr, kkr);
-        Double3 kkt = material.kT.scale(k);
+            color = calcGlobalEffect(constructReflectedRay(gp.point, v, n), level, material.kR, kkr);
+        Double3 kkt = material.kT.product(k);
         if (!kkt.lowerThan(MIN_CALC_COLOR_K))
             color = color.add(
-                    calcGlobalEffect(constructRefractedRay(gp.point, v, n), level, material.kt, kkt));
+                    calcGlobalEffect(constructRefractedRay(gp.point, v, n), level, material.kT, kkt));
         return color;
     }
 
-    private Color calcGlobalEffect(Ray ray, int level, double kx, double kkx) {
+    private Color calcGlobalEffect(Ray ray, int level, Double3 kx, Double3 kkx) {
         GeoPoint gp = findClosestIntersection(ray);
-        return (gp == null ? scene.background : calcColor(gp, ray, level – 1, kkx)
-        ).scale(kx));
+        return (gp == null ? scene.background : calcColor(gp, ray, level - 1, kkx)
+        ).scale(kx);
+    }
+
+    private GeoPoint findClosestIntersection(Ray ray) {
+        return ray.findClosestGeoPoint(scene.geometries.findGeoIntersections(ray));
+    }
+
+    private Ray constructRefractedRay(Point point, Vector v, Vector n) {
+        return new Ray(point.add(n.scale(-DELTA)),v);
+    }
+
+    private Ray constructReflectedRay(Point point, Vector v, Vector n) {
+        return new Ray (point.add(n.scale(DELTA)),v.add(n.scale(-2*v.dotProduct(n))));
     }
 
     /**

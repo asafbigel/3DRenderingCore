@@ -29,7 +29,7 @@ public class PointLight extends Light implements LightSource{
      * @param kL double type, must be <1 and >0.
      * @return this instance, builder design pattern.
      */
-    public PointLight setkL(double kL) {
+    public PointLight setKl(double kL) {
         this.kL = kL;
         return this;
     }
@@ -39,7 +39,7 @@ public class PointLight extends Light implements LightSource{
      * @param kQ double type, must be <1 and >0.
      * @return this instance, builder design pattern.
      */
-    public PointLight setkQ(double kQ) {
+    public PointLight setKq(double kQ) {
         this.kQ = kQ;
         return this;
     }
