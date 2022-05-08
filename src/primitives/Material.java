@@ -12,9 +12,17 @@ public class Material {
         this.kT = kT;
         return this;
     }
+    public Material setKt(double kT) {
+        this.kT = new Double3(kT);
+        return this;
+    }
 
     public Material setKr(Double3 kR) {
         this.kR = kR;
+        return this;
+    }
+    public Material setKr(double kR) {
+        this.kR = new Double3(kR);
         return this;
     }
 
