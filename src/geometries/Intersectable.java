@@ -27,6 +27,11 @@ public abstract class Intersectable {
       return findGeoIntersectionsHelper(ray);
     }
 
+    public List<GeoPoint> findGeoIntersections(Ray ray, double lightDis){
+
+        return findGeoIntersectionsHelper(ray, lightDis);
+    }
+
     /**
      * each subclass of this intersectable will implement this part of
      * nvi function above.
@@ -34,6 +39,8 @@ public abstract class Intersectable {
      * @return List of all Geopoint intersections.
      */
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    //TODO
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double lightDis);
 
     public static class GeoPoint {
         public final Geometry geometry;

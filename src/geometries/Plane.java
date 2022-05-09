@@ -133,4 +133,16 @@ public class Plane extends Geometry {
         }
         return Geointersections;
     }
+    @Override
+    //TODO
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double minDis) {
+        List<Point> intersections= this.findIntersections(ray);
+        if (intersections==null)
+            return null;
+        List<GeoPoint> Geointersections=new ArrayList<>();
+        for (Point p:intersections) {
+            Geointersections.add(new GeoPoint(this,p));
+        }
+        return Geointersections;
+    }
 }

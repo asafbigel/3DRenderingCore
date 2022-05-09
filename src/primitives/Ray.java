@@ -6,7 +6,10 @@ import geometries.Intersectable.GeoPoint;
 /**
  * primitive object ray, composed by a point and a direction vector
  */
+
 public class Ray {
+    private static final double DELTA = 0.001;
+
     final Point p0;
     final Vector dir;
 
@@ -20,6 +23,15 @@ public class Ray {
         this.p0 = p0;
         this.dir = dir.normalize();
     }
+
+    public Ray(Point head, Vector direction, Vector normal){
+        if (direction.dotProduct((normal))>0)
+            this.p0 = head.add(normal.scale(DELTA));
+        else
+            this.p0 = head.subtract(normal.scale(DELTA));
+        this.dir = direction;
+    }
+
 
     /**
      * getters and setters for object fields.

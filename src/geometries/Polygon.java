@@ -35,6 +35,10 @@ public class Polygon extends Geometry {
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         return null;
     }
+    //TODO
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double minDis) {
+        return null;
+    }
 
     /**
      * Polygon constructor based on vertices list. The list must be ordered by edge
