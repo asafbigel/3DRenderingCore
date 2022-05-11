@@ -10,10 +10,16 @@ public interface LightSource {
     public Color getIntensity(Point p);
 
     /**
-     * i don't know yet!!
+     * function return light source direction vector.
      * @param p
      * @return
      */
     public Vector getL(Point p);
+
+    /**
+     * return the distance from point to light source.
+     * @param point that we want to know its distance to light source.
+     * @return double type, distance.
+     */
     double getDistance(Point point);
 }

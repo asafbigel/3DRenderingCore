@@ -24,6 +24,12 @@ public class Polygon extends Geometry {
     protected Plane plane;
     private int size;
 
+    /**
+     * right now it is not implemented.
+     * @param ray Ray of intersection. (a cast ray)
+     * @param minDis
+     * @return
+     */
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double minDis) {
         return null;
     }
@@ -90,7 +96,11 @@ public class Polygon extends Geometry {
         size = vertices.length;
     }
 
-
+    /**
+     * a getter for surface normal.
+     * @param point a point on the polygon.
+     * @return Vector type perpendicular to polygon surface.
+     */
     public Vector getNormal(Point point) {
         return plane.getNormal();
     }

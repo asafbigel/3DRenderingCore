@@ -2,6 +2,8 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import scene.Scene;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,8 +38,8 @@ public class Geometries extends Intersectable{
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        List<Point> l = null;
-        List<Point> newL;
+        List<Point> l = new ArrayList<>();
+        List<Point> newL=new ArrayList<>();
         for (Intersectable shape:shapes) {
             newL=shape.findIntersections(ray);
             // case there are intersections with this shape
@@ -48,6 +50,8 @@ public class Geometries extends Intersectable{
                     l.addAll(newL);
             }
         }
+        if (l.size()==0)
+            return null;
         return l;
     }
 

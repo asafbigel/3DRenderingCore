@@ -37,6 +37,12 @@ public class DirectionalLight extends Light implements LightSource{
         return this.direction;
     }
 
+    /**
+     * return distance from point to light source position. here value is constant
+     * with POSITIVE INFINITY VALUE.
+     * @param point that we wnat to know it distance from light source.
+     * @return constant of POSITIVE INFINITY.
+     */
     @Override
     public double getDistance(Point point) {
         return Double.POSITIVE_INFINITY;

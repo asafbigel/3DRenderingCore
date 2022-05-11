@@ -55,6 +55,14 @@ public class Triangle extends Polygon {
             return l1;
         return null;
     }
+
+    /**
+     * NOTICE: triangle dont have findGeointersectionsHelper function, for it is in plane class.
+     * we only find intersection with triangle plane and then in this function check if point is in triangle or not.
+     * @param ray the ray we cast (can be primary ray (camera) or secondary ray (shadow,reflection,or refraction).
+     * @param maxDistance the max distance of the intersection, an intersection point farther than this distance won't be included,
+     * @return
+     */
     @Override
     public List<GeoPoint> findGeoIntersections(Ray ray,double maxDistance){
         /*create a new plane first and sets its emission light with this triangle

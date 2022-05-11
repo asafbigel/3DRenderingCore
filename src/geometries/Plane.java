@@ -95,7 +95,6 @@ public class Plane extends Geometry {
      * @return List of all Geopoint intersections.
      */
     @Override
-    //TODO
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         // case parallel
         if (isZero(getNormal().dotProduct(ray.getDir()))){
