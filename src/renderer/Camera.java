@@ -240,4 +240,79 @@ public class Camera {
             throw new MissingResourceException("no image writer value", "Camera", "3");
         iw.writeToImage();
     }
+    public void writeToImage(String path) {
+        //check if iw is not empty first.
+        if (iw == null)
+            throw new MissingResourceException("no image writer value", "Camera", "3");
+        iw.writeToImage(path);
+    }
+
+    public  Camera moveRight(double dis){
+        if (dis != 0)
+            p0 = p0.add(vRight.scale(dis));
+        return this;
+    }
+    public  Camera moveForward(double dis){
+        if (dis != 0)
+            p0 = p0.add(vTo.scale(dis));
+        return this;
+    }
+    public  Camera moveUp(double dis){
+        if (dis != 0)
+            p0 = p0.add(vUp.scale(dis));
+        return this;
+    }
+
+    /**
+     * Routing camera to the left
+     * @param theta the angle
+     * @return The new camera
+     */
+    public Camera rotationLeft(double theta){
+        vTo = vTo.Roatate(theta, vUp);
+        //vUp = vUp.Roatate(theta,vUp);
+        vRight = vRight.Roatate(theta,vUp);
+        return this;
+    }
+
+    /**
+     * Routing camera to the
+     * @param theta the angle
+     * @return The new camera
+     */
+    public Camera rotationUp(double theta){
+        vTo = vTo.Roatate(theta, vRight);
+        vUp = vUp.Roatate(theta,vRight);
+        //vRight = vRight.Roatate(theta, vRight);
+        return this;
+    }
+
+    private Vector rotationL(Vector v, double theta) {
+        double x =  v.getX();
+        double y = v.getY();
+        double x1 = x*Math.cos(theta)- y* Math.sin(theta);
+        double y1 = x*Math.sin(theta)+ y* Math.cos(theta);
+        double z1 = v.getZ();
+        return new Vector(x1,y1,z1);
+    }
+
+    private Vector rotationU(Vector v, double theta) {
+        double y = v.getY();
+        double z = v.getZ();
+        double x1 = v.getX();
+        double y1 = y*Math.cos(theta)- z* Math.sin(theta);
+        double z1 = y*Math.sin(theta)+ z* Math.cos(theta);
+        return new Vector(x1,y1,z1);
+
+    }
+
+    private Vector rotation(Vector v, Vector dir, double theta) {
+        theta = (theta/360)*2*Math.PI;    // from regular to radian
+        double cos = Math.cos(theta);
+        double sin = Math.sin(theta);
+        Vector v1 =v.scale(cos);
+        Vector v2 =dir.crossProduct(v).scale(sin);
+        Vector v3 =dir.scale(dir.dotProduct(v)).scale(1-cos);
+        return  v1.add(v2).add(v3);
+    }
 }
