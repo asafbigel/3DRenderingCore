@@ -1,10 +1,9 @@
 package renderer;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import renderer.Camera;
 import primitives.*;
 
 /**
@@ -56,5 +55,36 @@ class CameraTest {
 				camera.setVPSize(8, 8).constructRay(4, 4, 1, 0), badRay);
 
 }
+	Camera camera = new Camera(ZERO_POINT, new Vector(1, 0, 0), new Vector(0, 0, 1)).setVPDistance(10);
 
+    @Test
+    void moveRight() {
+		assertEquals(camera.moveRight(1).getP0(), new Point(0,-1,0));
+	}
+	@Test
+	void moveForward() {
+		assertEquals(camera.moveForward(1).getP0(), new Point(1,0,0));
+	}
+	@Test
+	void moveUp() {
+		assertEquals(camera.moveUp(1).getP0(), new Point(0,0,1));
+	}
+
+	@Test
+	void rotationLeft() {
+		//Camera camera1 = camera.rotationLeft(Math.PI/2);
+		Camera camera1 = camera.rotationLeft(90);
+		assertEquals(camera1.getVTo(),new Vector(0,1,0));
+		assertEquals(camera1.getVUp(),new Vector(0,0,1));
+		assertEquals(camera1.getVRight(),new Vector(1,0,0));
+	}
+
+	@Test
+	void rotationUp() {
+		Camera camera1 = camera.rotationUp(90);
+		assertEquals(camera1.getVTo(),new Vector(0,0,1));
+		assertEquals(camera1.getVUp(),new Vector(-1,0,0));
+		assertEquals(camera1.getVRight(),new Vector(0,-1,0));
+
+	}
 }

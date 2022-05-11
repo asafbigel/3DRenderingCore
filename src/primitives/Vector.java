@@ -123,5 +123,17 @@ public class Vector extends Point {
         Double3 d = xyz.product(v.xyz);
         return d.d1 + d.d2 + d.d3;
     }
+
+    public Vector Roatate(double angle , Vector axis ){
+        angle = angle / 180 * Math.PI ;
+        double cosa = Math.cos(angle ) , sina = Math.sin(angle);
+        double  x = axis.xyz.d1 , y = axis.xyz.d2 , z=axis.xyz.d3 ,x2 = x*x ,y2 =y*y, z2 = z*z;
+        double tx = this.xyz.d1 , ty = this.xyz.d2 ,tz =this.xyz.d3 ;
+        return new Vector(
+                (x2*(1-cosa)+ cosa )*tx +  (x*y*(1-cosa)-sina)*ty + (x*z*(1-cosa)+y*sina)*tz ,
+                (x*y*(1-cosa)+z*sina)*tx + (y2*(1-cosa)+cosa)*ty + (y*z*(1-cosa)-x*sina)*tz ,
+                (x*z*(1-cosa)-y*sina)*tx + (y*z*(1-cosa)+x*sina)*ty + (z2*(1-cosa)+cosa)*tz
+        );
+    }
 }
 

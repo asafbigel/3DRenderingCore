@@ -77,6 +77,16 @@ public class ImageWriter {
 			throw new IllegalStateException("I/O error - may be missing directory " + FOLDER_PATH, e);
 		}
 	}
+	public void writeToImage(String path) {
+		try {
+			new File(FOLDER_PATH + '/' + path).mkdirs();
+			File file = new File(FOLDER_PATH + '/' + path +'/' + imageName + ".png");
+			ImageIO.write(image, "png", file);
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, "I/O error", e);
+			throw new IllegalStateException("I/O error - may be missing directory " + FOLDER_PATH, e);
+		}
+	}
 
 	/**
 	 * The function writePixel writes a color of a specific pixel into pixel color
