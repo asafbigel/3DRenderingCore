@@ -10,37 +10,25 @@ public abstract class Intersectable {
      * @return a list of all the points that are on geometric shapes that our ray intersects with
      */
     public List<Point> findIntersections(Ray ray) {
-        var geoList = findGeoIntersections(ray);
+        var geoList = findGeoIntersections(ray,Double.POSITIVE_INFINITY);
         return geoList == null ? null
                 : geoList.stream().map(gp -> gp.point).toList();
     }
 
-    /**
-     * non virtual interface function, each class that extends this class
-     * will only override the special part of this function ths is suited
-     * for that class, and the main structure will be the same.
-     * @param ray Ray of intersection. (a cast ray)
-     * @return List of all Geopoint intersections.
-     */
-    public List<GeoPoint> findGeoIntersections(Ray ray){
+    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance){
 
-      return findGeoIntersectionsHelper(ray);
+        return findGeoIntersectionsHelper(ray, maxDistance);
     }
 
-    public List<GeoPoint> findGeoIntersections(Ray ray, double lightDis){
-
-        return findGeoIntersectionsHelper(ray, lightDis);
-    }
 
     /**
      * each subclass of this intersectable will implement this part of
      * nvi function above.
      * @param ray Ray of intersection. (a cast ray)
+     * @param maxDistance
      * @return List of all Geopoint intersections.
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
-    //TODO
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double lightDis);
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance);
 
     public static class GeoPoint {
         public final Geometry geometry;

@@ -55,14 +55,14 @@ public class Triangle extends Polygon {
             return l1;
         return null;
     }
-
-    public List<GeoPoint> findGeoIntersections(Ray ray){
+    @Override
+    public List<GeoPoint> findGeoIntersections(Ray ray,double maxDistance){
         /*create a new plane first and sets its emission light with this triangle
         emission light (so they would have the same color.),
         and then finding its geopoint with findGeointersection function (of that plane).
         */
         List<GeoPoint> l1 = new Plane(this.vertices.get(0),this.getNormal(this.vertices.get(0))).
-                setEmission(this.getEmission()).setMaterial(this.getMaterial() ).findGeoIntersections(ray);
+                setEmission(this.getEmission()).setMaterial(this.getMaterial() ).findGeoIntersections(ray,maxDistance);
         if (l1 == null) //case1: ray in parallel to triangle plane.
             return null;
         /*after that we check the signs of all constructed vectors to see rather there

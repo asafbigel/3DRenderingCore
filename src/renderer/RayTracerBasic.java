@@ -47,7 +47,7 @@ public class RayTracerBasic extends RayTracerBase {
         //if we do have intersections, we only see the closest intersection point.
         GeoPoint closestPoint = r.findClosestGeoPoint(intersections);
          */
-        GeoPoint closestPoint = findClosestIntersection(r);
+        GeoPoint closestPoint = findClosestIntersection(r,Double.POSITIVE_INFINITY);
         if (closestPoint == null) return scene.background;
         //now we want to add color to point, so we use Geopoint.
         return calcColor(closestPoint, r);
@@ -130,14 +130,14 @@ public class RayTracerBasic extends RayTracerBase {
 
         if (!kkr.lowerThan(MIN_CALC_COLOR_K)){
             Ray reflectedRay = constructReflectedRay(gp.point,v,n);
-            GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
+            GeoPoint reflectedPoint = findClosestIntersection(reflectedRay,Double.POSITIVE_INFINITY);
             if (reflectedPoint != null)
                 color = calcGlobalEffect(reflectedRay, level-1,material.kR, kkr);
         }
         Double3 kkt = material.kT.product(k);
         if (!kkt.lowerThan(MIN_CALC_COLOR_K)){
             Ray refractedRay = constructRefractedRay(gp.point,v,n);
-            GeoPoint refractedPoint = findClosestIntersection(refractedRay);
+            GeoPoint refractedPoint = findClosestIntersection(refractedRay,Double.POSITIVE_INFINITY);
             if (refractedPoint != null)
                 color = color.add(
                         calcGlobalEffect(refractedRay, level-1,material.kT, kkt));
@@ -147,13 +147,13 @@ public class RayTracerBasic extends RayTracerBase {
     }
 
     private Color calcGlobalEffect(Ray ray, int level, Double3 kx, Double3 kkx) {
-        GeoPoint gp = findClosestIntersection(ray);
+        GeoPoint gp = findClosestIntersection(ray,Double.POSITIVE_INFINITY);
         return (gp == null ? scene.background : calcColor(gp, ray, level - 1, kkx)
         ).scale(kx);
     }
 
-    private GeoPoint findClosestIntersection(Ray ray) {
-        return ray.findClosestGeoPoint(scene.geometries.findGeoIntersections(ray));
+    private GeoPoint findClosestIntersection(Ray ray,double maxDistance) {
+        return ray.findClosestGeoPoint(scene.geometries.findGeoIntersections(ray,maxDistance));
     }
 
     private Ray constructRefractedRay(Point point, Vector v, Vector n) {
@@ -169,24 +169,19 @@ public class RayTracerBasic extends RayTracerBase {
 
     private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n, double nv) {
         Double3 ktr = new Double3(1);
-        Vector lightDirection = l.scale(-1); // from point to light source
+        Vector lightDirection = l.scale(-1); // from point to light source (shadow ray)
 
-        //Vector epsVector = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA); //we want to know either we need to move in the direction of the normal or not
-        //because the normal can be inwards.
-        //Point point = gp.point.add(epsVector);//moving point outside the shape so we can see it.
+        Ray lightRay = new Ray(gp.point,lightDirection,n);
+        // a ray from intersection point to light source, and if there is an intersection with other shape then piont of ray is shaded.
 
-        //Ray lightRay = new Ray(point, lightDirection);// a ray from intersection point to light source, and if there is an intersection with other shape then piont of ray is shaded.
-        Ray lightRay = new Ray(gp.point,lightDirection,n);// a ray from intersection point to light source, and if there is an intersection with other shape then piont of ray is shaded.
-
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay,light.getDistance(gp.point));
         if (intersections == null)
             return ktr;
-        double distance = light.getDistance(gp.point);
         for (GeoPoint Geopoint : intersections) {
-            if (alignZero(gp.point.distance(Geopoint.point) - distance) <=0) {
-                ktr = Geopoint.geometry.getMaterial().kT.product(ktr);
-                if (ktr.lowerThan(MIN_CALC_COLOR_K)) return Double3.ZERO;
-            }
+            //we multiply our attenuation factor with with every object that is between our object and light source,
+            //so that if it is compliantly transparent than light travels threw it and ktr*1, and 0 in the opposite case.
+            ktr = Geopoint.geometry.getMaterial().kT.product(ktr);
+            if (ktr.lowerThan(MIN_CALC_COLOR_K)) return Double3.ZERO;
         }
         return ktr;
 

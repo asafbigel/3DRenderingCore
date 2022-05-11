@@ -24,18 +24,6 @@ public class Polygon extends Geometry {
     protected Plane plane;
     private int size;
 
-    /**
-     * each subclass of this intersectable will implement this part of
-     * nvi function above.
-     *
-     * @param ray Ray of intersection. (a cast ray)
-     * @return List of all Geopoint intersections.
-     */
-    @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        return null;
-    }
-    //TODO
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double minDis) {
         return null;
     }

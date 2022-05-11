@@ -78,9 +78,6 @@ public class Tube extends Geometry {
      * @return List of all Geopoint intersections.
      */
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        return null;
-    }
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double minDis) {
         return null;
     }

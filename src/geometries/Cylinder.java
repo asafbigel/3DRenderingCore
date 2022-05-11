@@ -48,16 +48,7 @@ public class Cylinder extends Tube {
                 ", radius=" + radius +
                 "} ";
     }
-    /**
-     * function finds intersaections between ray and the geometric shape (or entity).
-     *
-     * @param ray ray is shots from camera.
-     * @return a list of all the points that are on geometric shapes that our ray intersects with
-     */
-    @Override
-    public List<GeoPoint> findGeoIntersections(Ray ray) {
-        return null;
-    }
+
     /**
      * function returns the normal of object at a secific point.
      * @param p- the specific point.
