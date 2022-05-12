@@ -10,38 +10,38 @@ public abstract class Intersectable {
      * @return a list of all the points that are on geometric shapes that our ray intersects with
      */
     public List<Point> findIntersections(Ray ray) {
-        var geoList = findGeoIntersections(ray);
+        var geoList = findGeoIntersections(ray,Double.POSITIVE_INFINITY);
         return geoList == null ? null
                 : geoList.stream().map(gp -> gp.point).toList();
     }
 
     /**
-     * non virtual interface function, each class that extends this class
-     * will only override the special part of this function ths is suited
-     * for that class, and the main structure will be the same.
-     * @param ray Ray of intersection. (a cast ray)
-     * @return List of all Geopoint intersections.
+     * a new geo intersection function, we deleted the old one in refactoring process,
+     * new the function gets max distance of intersection point, usually in primary rays we send POSITIVE_INFINITY
+     * so we get all intersection points, but in shadow ray for instance we send the distance from intersection point
+     * to light source preventing objects that are behind the light source to cast a shadow upon our intersection point.
+     * @param ray the ray we cast (can be primary ray (camera) or secondary ray (shadow,reflection,or refraction).
+     * @param maxDistance the max distance of the intersection, an intersection point farther than this distance won't be included,
+     * @return a list of geo points with all intersection points.
      */
-    public List<GeoPoint> findGeoIntersections(Ray ray){
+    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance){
 
-      return findGeoIntersectionsHelper(ray);
-    }
-
-    public List<GeoPoint> findGeoIntersections(Ray ray, double lightDis){
-
-        return findGeoIntersectionsHelper(ray, lightDis);
+        return findGeoIntersectionsHelper(ray, maxDistance);
     }
 
     /**
      * each subclass of this intersectable will implement this part of
      * nvi function above.
      * @param ray Ray of intersection. (a cast ray)
+     * @param maxDistance
      * @return List of all Geopoint intersections.
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
-    //TODO
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double lightDis);
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance);
 
+    /**
+     * an assistance class for saving not only the intersection point but the shape that
+     * it intersects on, so we can tell point color.
+     */
     public static class GeoPoint {
         public final Geometry geometry;
         public final Point point;

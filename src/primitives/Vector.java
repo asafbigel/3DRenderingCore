@@ -124,6 +124,12 @@ public class Vector extends Point {
         return d.d1 + d.d2 + d.d3;
     }
 
+    /**
+     * asaf bigel please make sure to java doc your useless function.
+     * @param angle
+     * @param axis
+     * @return
+     */
     public Vector Roatate(double angle , Vector axis ){
         angle = angle / 180 * Math.PI ;
         double cosa = Math.cos(angle ) , sina = Math.sin(angle);

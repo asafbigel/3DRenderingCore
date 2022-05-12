@@ -84,32 +84,23 @@ public class Ray {
         return p0.add(dir.scale(t));
     }
 
-    /*
-    public Point findClosestPoint(List<Point> pointList) {
-        if (pointList==null)
-            return null;
-        double min = Double.POSITIVE_INFINITY;
-        Point p1 = null;
-        for (Point p : pointList) {
-            double dis = this.p0.distance(p);
-            if (dis < min) {
-                min = dis;
-                p1 = p;
-            }
-        }
-        return p1;
-    }
-
+    /**
+     * function now call upon the new find colsest geo point to find the first intersection point with ray beam.
+     * @param intersections a list of intersection points.
+     * @return Point type of the closest intersection of all points delivered in param.
      */
-
     public Point findClosestPoint(List<Point> intersections) {
         return (intersections == null || intersections.size()==0)  ? null
                 : findClosestGeoPoint(intersections.stream().map(p -> new GeoPoint(null, p)).toList()
         ).point;
     }
 
-
-
+    /**
+     * function finds the closest intersection point to the ray p0.
+     * @param intersections list of intersection points. notice that the geometry field in this list is null for all point.
+     *                      because we dont care about the shape only the point.
+     * @return GeoPoint type of the closest point to p0 from the list.
+     */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> intersections) {
         if (intersections==null)
             return null;

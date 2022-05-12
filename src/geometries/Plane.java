@@ -87,14 +87,15 @@ public class Plane extends Geometry {
                 ", normal=" + normal +
                 '}';
     }
+
     /**
-     * function finds intersaections between ray and the geometric shape (or entity).
-     *
-     * @param ray ray is shots from camera.
-     * @return a list of all the points that are on geometric shapes that our ray intersects with
+     * each subclass of this intersectable will implement this part of
+     * nvi function above.
+     * @param ray Ray of intersection. (a cast ray)
+     * @return List of all Geopoint intersections.
      */
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         // case parallel
         if (isZero(getNormal().dotProduct(ray.getDir()))){
             return null;
@@ -103,46 +104,16 @@ public class Plane extends Geometry {
         // zer vector.
         try {
             double t = alignZero((getNormal().dotProduct(getQ0().subtract(ray.getP0()))) / (getNormal().dotProduct(ray.getDir())));
-        if (t<=0)
-            return null;
-        LinkedList<Point> l1 = new LinkedList<>();
-        l1.add(ray.getPoint(t));
-        //l1.add(ray.getP0().add(ray.getDir().scale(t)));
-        return l1;
+            Point intersection = ray.getPoint(t);
+            if (t<=0 || ray.getP0().distance(intersection)>maxDistance)
+                return null;
+            LinkedList<GeoPoint> l1 = new LinkedList<>();
+            l1.add(new GeoPoint(this,ray.getPoint(t)));
+            //l1.add(ray.getP0().add(ray.getDir().scale(t)));
+            return l1;
         }
         catch (IllegalArgumentException e) {
             return null;
         }
-    }
-
-    /**
-     * each subclass of this intersectable will implement this part of
-     * nvi function above.
-     *
-     * @param ray Ray of intersection. (a cast ray)
-     * @return List of all Geopoint intersections.
-     */
-    @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        List<Point> intersections= this.findIntersections(ray);
-        if (intersections==null)
-            return null;
-        List<GeoPoint> Geointersections=new ArrayList<>();
-        for (Point p:intersections) {
-            Geointersections.add(new GeoPoint(this,p));
-        }
-        return Geointersections;
-    }
-    @Override
-    //TODO
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double minDis) {
-        List<Point> intersections= this.findIntersections(ray);
-        if (intersections==null)
-            return null;
-        List<GeoPoint> Geointersections=new ArrayList<>();
-        for (Point p:intersections) {
-            Geointersections.add(new GeoPoint(this,p));
-        }
-        return Geointersections;
     }
 }

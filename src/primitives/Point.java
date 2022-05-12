@@ -100,9 +100,8 @@ public class Point {
     }
 
     /**
-     * function simply return the x value of this point.
-     *
-     * @return -x value (as a double) of this point.
+     * functions below simply return the x,y,z values of this point.
+     * @return -x,y,z values (as a double) of this point.
      */
     public double getX() {
         return xyz.d1;

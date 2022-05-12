@@ -2,6 +2,8 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import scene.Scene;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,8 +41,8 @@ public class Geometries extends Intersectable{
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        List<Point> l = null;
-        List<Point> newL;
+        List<Point> l = new ArrayList<>();
+        List<Point> newL=new ArrayList<>();
         for (Intersectable shape:shapes) {
             newL=shape.findIntersections(ray);
             // case there are intersections with this shape
@@ -51,6 +53,8 @@ public class Geometries extends Intersectable{
                     l.addAll(newL);
             }
         }
+        if (l.size()==0)
+            return null;
         return l;
     }
 
@@ -62,28 +66,12 @@ public class Geometries extends Intersectable{
      * @return List of all Geopoint intersections.
      */
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        List<GeoPoint> intersections = null;
-        //for (Geometry geometry : Scene.geometries) {
-        for (Intersectable shape:shapes) {
-            var geoIntersections = shape.findGeoIntersections(ray);
-            //we must operate like this, because we cannot add a null in case there is no intersections.
-            if (geoIntersections != null){
-                if (intersections == null)
-                    intersections = geoIntersections;
-                else
-                    intersections.addAll(geoIntersections);
-            }
-        }
-        return intersections;
-    }
-    @Override
     //TODO
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double minDis) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         List<GeoPoint> intersections = null;
         //for (Geometry geometry : Scene.geometries) {
         for (Intersectable shape:shapes) {
-            var geoIntersections = shape.findGeoIntersections(ray);
+            var geoIntersections = shape.findGeoIntersections(ray,maxDistance);
             //we must operate like this, because we cannot add a null in case there is no intersections.
             if (geoIntersections != null){
                 if (intersections == null)

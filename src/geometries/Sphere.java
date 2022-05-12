@@ -73,45 +73,6 @@ public class Sphere extends Geometry {
      * @param ray Ray of intersection. (a cast ray)
      * @return List of all Geopoint intersections.
      */
-    @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        /*
-        List<Point> intersections= this.findIntersections(ray);
-        if (intersections==null)
-            return null;
-      //  return List.of(new GeoPoint(this,),…)
-        List<GeoPoint> Geointersections=new ArrayList<>();
-        for (Point p:intersections) {
-            Geointersections.add(new GeoPoint(this,p));
-        }
-        return Geointersections;
-
-         */
-
-        try {
-            Vector u = center.subtract(ray.getP0());
-            double tm = ray.getDir().dotProduct(u);
-            double d = Math.sqrt(u.lengthSquared() - (tm * tm));
-            if (d >= radius)
-                return null;
-            double th = Math.sqrt((radius * radius) - (d * d));
-            if (tm + th <= 0)
-                return null;
-            LinkedList<GeoPoint> l1 = new LinkedList<>();
-            l1.add( new GeoPoint(this, ray.getPoint(tm + th)));
-            //l1.add(ray.getP0().add(ray.getDir().scale(tm + th))); refactor
-            if (tm > th)
-                l1.add(new GeoPoint(this, ray.getPoint(tm - th)));
-            //l1.add(ray.getP0().add(ray.getDir().scale(tm - th)));refactor.
-            return l1;
-        } catch (IllegalArgumentException e) {
-            LinkedList<GeoPoint> l1 = new LinkedList<>();
-            l1.add(new GeoPoint(this, center.add(ray.getDir().scale(radius))));
-            return l1;
-        }
-    }
-
-    //TODO
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double minDis) {
 
         try {
