@@ -1,6 +1,11 @@
 package renderer;
 import primitives.*;
 import java.util.MissingResourceException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import static java.lang.System.out;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
@@ -191,12 +196,38 @@ public class Camera {
         if (height == 0 || width == 0 || iw == null || rtb == null) {
             throw new MissingResourceException("not enough variables.", "Camera", "1");
         }
+        ExecutorService pool = Executors.newFixedThreadPool(3);
         for (int j = 0; j < iw.getNx(); j++)
             for (int i = 0; i < iw.getNy(); i++) {
-                Color c = castRay(j,i);
-                iw.writePixel(i, j, c);
+                pool.execute(new runColor(i,j, this));
             }
+        pool.shutdown();
+        try {
+            pool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            out.println("ERROR");
+        }
+
         return this;
+    }
+
+    class runColor implements Runnable {
+
+        int i,j;
+
+        Camera camera;
+
+        public runColor(int i, int j, Camera camera) {
+            this.i = i;
+            this.j = j;
+
+            this.camera = camera;
+        }
+        @Override
+        public void run() {
+            Color c = castRay(j,i);
+            camera.iw.writePixel(i, j, c);
+        }
     }
 
     /**
