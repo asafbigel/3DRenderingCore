@@ -20,6 +20,9 @@ public class Geometries extends Intersectable{
         shapes= List.of(geometries);
     }
 
+    public List<Intersectable> getShapes() {
+        return shapes;
+    }
 
     /**
      * @param geometries The geometries

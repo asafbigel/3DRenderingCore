@@ -12,12 +12,13 @@ import renderer.ImageWriter;
 import renderer.RayTracerBasic;
 import scene.Scene;
 
-public class MyTest1 {
+public class Spiral {
     private Scene scene = new Scene("My Test");
     @Test
     public void tenObjects() {
         Camera camera = new Camera(new Point(30, 5, 10), new Vector(-1, 0, 0), new Vector(0, 0, 1)) //
                 .setVPSize(500, 500).setVPDistance(250);
+
         double angle;
         double x,y;
         for (double i = 0 ; i <360*3; i+=20){
@@ -41,10 +42,10 @@ public class MyTest1 {
         scene.background = new Color(240,170,150);
 
 
-        camera.setImageWriter(new ImageWriter("MyBalls", 500, 500))
+        camera.setImageWriter(new ImageWriter("spiral", 500, 500))
                 .moveRight(-70).moveForward(-200).moveUp(100).rotationLeft(-30)
                 .setRayTracer(new RayTracerBasic(scene)) //
                 .renderImage() //
-                .writeToImage("spiral");
+                .writeToImage();
     }
 }

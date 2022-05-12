@@ -19,6 +19,9 @@ public class Color {
 	 * Black color = (0,0,0)
 	 */
 	public static final Color BLACK = new Color();
+	public static final Color BLUE = new Color(0,0,256);
+	public static final Color GREEN = new Color(0,256,0);
+	public static final Color RED = new Color(256,0,0);
 
 	/**
 	 * Default constructor - to generate Black Color (privately)
