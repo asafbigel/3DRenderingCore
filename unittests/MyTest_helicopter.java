@@ -59,6 +59,36 @@ public class MyTest_helicopter {
 
         camera.setImageWriter(new ImageWriter("helicopter1", 500, 500))
                 .moveRight(-70).moveForward(-200).moveUp(100).rotationLeft(-30)
+                .rotationUp(360*8).rotationLeft(360*5).rotationOnSide(360*12)
+                .setRayTracer(new RayTracerBasic(scene)) //
+                .renderImage() //
+                .writeToImage();
+
+        camera.setImageWriter(new ImageWriter("helicopter1.0", 500, 500))
+                .setRayTracer(new RayTracerBasic(scene)) //
+                .renderImage() //
+                .writeToImage();
+
+        camera.setImageWriter(new ImageWriter("helicopter1.1", 500, 500))
+                .rotationOnSide(90)
+                .setRayTracer(new RayTracerBasic(scene)) //
+                .renderImage() //
+                .writeToImage();
+
+        camera.setImageWriter(new ImageWriter("helicopter1.2", 500, 500))
+                .rotationOnSide(90)
+                .setRayTracer(new RayTracerBasic(scene)) //
+                .renderImage() //
+                .writeToImage();
+
+        camera.setImageWriter(new ImageWriter("helicopter1.3", 500, 500))
+                .rotationOnSide(90)
+                .setRayTracer(new RayTracerBasic(scene)) //
+                .renderImage() //
+                .writeToImage();
+
+        camera.setImageWriter(new ImageWriter("helicopter1.4", 500, 500))
+                .rotationOnSide(90)
                 .setRayTracer(new RayTracerBasic(scene)) //
                 .renderImage() //
                 .writeToImage();

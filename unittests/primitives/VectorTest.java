@@ -74,4 +74,9 @@ class VectorTest {
 
         assertTrue (isZero(v1.dotProduct(v2) + 28), "ERROR: dotProduct() wrong value");
     }
+
+    @Test
+    void roatate() {
+        assertEquals(v1.normalize(), v1.Roatate(23,v1));
+    }
 }

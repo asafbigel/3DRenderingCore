@@ -276,7 +276,7 @@ public class Camera {
     }
 
     /**
-     * Routing camera to the
+     * Routing camera to up
      * @param theta the angle
      * @return The new camera
      */
@@ -284,6 +284,18 @@ public class Camera {
         vTo = vTo.Roatate(theta, vRight);
         vUp = vUp.Roatate(theta,vRight);
         //vRight = vRight.Roatate(theta, vRight);
+        return this;
+    }
+
+    /**
+     * Routing camera to the side
+     * @param theta the angle
+     * @return The new camera
+     */
+    public Camera rotationOnSide(double theta){
+//        vTo = vTo.Roatate(theta, vTo);
+        vUp = vUp.Roatate(theta,vTo);
+        vRight = vRight.Roatate(theta, vTo);
         return this;
     }
 

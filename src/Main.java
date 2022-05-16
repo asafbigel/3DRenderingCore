@@ -7,6 +7,9 @@ import scene.Scene;
 
 import java.util.Date;
 import java.util.Timer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.out;
 
@@ -25,12 +28,16 @@ public final class Main {
 	public static void main(String[] args) {
 		out.println(System.currentTimeMillis());
 		var start = System.currentTimeMillis();
+
 		Helicopter();
+		Helicopter1();
 		TenObjects();
+
 		out.println(System.currentTimeMillis());
-		out.print("all: ");
-		out.println((System.currentTimeMillis()- start)/1000);
+		//	out.print("Total time: ");
+		out.println("Total time: " + (System.currentTimeMillis() - start) / 1000 + "sec");
 	}
+
 
 	public static void Helicopter() {
 		Scene scene = new Scene("My Helicopter");
@@ -98,7 +105,8 @@ public final class Main {
 		}
 	}
 
-	public static void TenObjects() {
+
+	public static void Helicopter1() {
 		Scene scene = new Scene("Ten objects");
 
 		Camera camera = new Camera(new Point(30, 5, 10), new Vector(-1, 0, 0), new Vector(0, 0, 1)) //
@@ -176,4 +184,90 @@ public final class Main {
 					.writeToImage("STAM_IMG");
 		}
 	}
+
+
+	public static void TenObjects() {
+		Scene scene = new Scene("My Helicopter");
+
+		Camera camera = new Camera(new Point(60, 0, -30), new Vector(1, 0, 0), new Vector(0, 0, 1)) //
+				.setVPSize(500, 500).setVPDistance(1000);
+
+		scene.lights.add(new SpotLight(new Color(1000, 600, 0), new Point(-100, -100, 500), new Vector(-1, -1, -2)) //
+				.setKl(0.0004).setKq(0.0000006));
+		scene.lights.add(new PointLight(new Color(200, 0, 0), new Point(25, 25, 25))
+				.setKl(0.0009).setKq(0.00006));
+		scene.ambientLight = new AmbientLight(new Color(35, 70, 120), 0.3);
+		scene.background = new Color(120, 170, 150);
+
+		double j;
+		double i;
+		Point p = new Point(0, 0, 57.5);
+		camera.moveRight(-70).moveForward(-200).moveUp(100).rotationLeft(-30);
+
+
+		for (j = 0; j < 361 * 5; j = j + 10) {
+			i = (j / 360) * 2 * Math.PI;
+			scene.geometries = new Geometries(
+					new Plane(new Point(0, 0, 0), new Vector(0, 0, 1))
+							.setEmission(Color.RED)
+							.setMaterial(new Material()),
+					new Sphere(new Point(0, 0, 50), 7)
+							.setEmission(Color.BLUE)
+							.setMaterial(new Material().setKt(0.3).setKr(0.1).setKd(0.4).setKs(0.2).setShininess(3)),
+					new Sphere(new Point(0, 0, 58), 1)
+							.setEmission(Color.GREEN)
+							.setMaterial(new Material().setKr(0.1).setKd(0.4).setKs(0.8).setShininess(6)),
+					new Triangle(new Point(0, 7, 50), new Point(0, 10, 55), new Point(0, 10, 45))
+							.setEmission(new Color(214, 78, 156))
+							.setMaterial(new Material().setKr(0.7).setKd(0.3).setKs(0.3).setShininess(2)),
+					// KNAFAIM
+					new Triangle(p, new Point(10 * Math.sin(i), 10 * Math.cos(i), 57.5), new Point(10 * Math.sin(i + 1), 10 * Math.cos(i + 1), 57.5))
+							.setEmission(Color.GREEN)
+							.setMaterial(new Material().setKr(0.1).setKd(0.4).setKs(0.8).setShininess(6)),
+					new Triangle(p, new Point(10 * Math.sin((Math.PI) / 2 + i), 10 * Math.cos((Math.PI) / 2 + i), 57.5), new Point(10 * Math.sin((Math.PI) / 2 + i + 0.3), 10 * Math.cos((Math.PI) / 2 + i + 0.3), 57.5))
+							.setEmission(Color.GREEN)
+							.setMaterial(new Material().setKr(0.1).setKd(0.4).setKs(0.8).setShininess(6)),
+					new Triangle(p, new Point(10 * Math.sin((Math.PI) + i), 10 * Math.cos((Math.PI) + i), 57.5), new Point(10 * Math.sin((Math.PI) + i + 0.3), 10 * Math.cos((Math.PI) + i + 0.3), 57.5))
+							.setEmission(Color.GREEN)
+							.setMaterial(new Material().setKr(0.1).setKd(0.4).setKs(0.8).setShininess(6)),
+					new Triangle(p, new Point(10 * Math.sin((Math.PI) * 3 / 2 + i), 10 * Math.cos((Math.PI) * 3 / 2 + i), 57.5), new Point(10 * Math.sin((Math.PI) * 3 / 2 + i + 0.3), 10 * Math.cos((Math.PI) * 3 / 2 + i + 0.3), 57.5))
+							.setEmission(Color.GREEN)
+							.setMaterial(new Material().setKr(0.1).setKd(0.4).setKs(0.8).setShininess(6))
+			);
+			camera.setImageWriter(new ImageWriter("helicopter" + j, 500, 500)) //
+					.setRayTracer(new RayTracerBasic(scene)) //
+					.renderImage() //
+					.writeToImage("helicopter1");
+
+		}
+
+
+/*
+		camera.moveRight(-70).moveForward(-200).moveUp(100).rotationLeft(-30);
+
+		for (i = 0; i < 139; i++) {
+			camera.moveRight(-3)
+					.moveForward(-0.025)
+					.moveUp(-0.2)
+					.rotationLeft(-1)
+					.setImageWriter(new ImageWriter("helicopter" + i, 500, 500)) //
+					.setRayTracer(new RayTracerBasic(scene))
+					.renderImage() //
+					.writeToImage("helicopter");
+		}
+		for (; i < 361; i++) {
+			camera.moveRight(0.25)
+					.moveForward(-0.025)
+					.moveUp(-0.1)
+					//.rotationLeft(-1)
+					.setImageWriter(new ImageWriter("helicopter" + i, 500, 500)) //
+					.setRayTracer(new RayTracerBasic(scene)) //
+					.renderImage() //
+					.writeToImage("helicopter");
+		}
+
+ */
+	}
+
+
 }

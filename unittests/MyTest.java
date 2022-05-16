@@ -82,6 +82,12 @@ public class MyTest {
                 .setRayTracer(new RayTracerBasic(scene)) //
                 .renderImage() //
                 .writeToImage();
+
+        camera.rotationOnSide(90)
+                .setImageWriter(new ImageWriter("STAM_IMG1", 500, 500)) //
+                .setRayTracer(new RayTracerBasic(scene)) //
+                .renderImage() //
+                .writeToImage();
     }
 }
 

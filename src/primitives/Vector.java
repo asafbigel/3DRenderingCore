@@ -136,10 +136,10 @@ public class Vector extends Point {
         double  x = axis.xyz.d1 , y = axis.xyz.d2 , z=axis.xyz.d3 ,x2 = x*x ,y2 =y*y, z2 = z*z;
         double tx = this.xyz.d1 , ty = this.xyz.d2 ,tz =this.xyz.d3 ;
         return new Vector(
-                (x2*(1-cosa)+ cosa )*tx +  (x*y*(1-cosa)-sina)*ty + (x*z*(1-cosa)+y*sina)*tz ,
+                (x2*(1-cosa)+ cosa )*tx +  (x*y*(1-cosa)-z*sina)*ty + (x*z*(1-cosa)+y*sina)*tz ,
                 (x*y*(1-cosa)+z*sina)*tx + (y2*(1-cosa)+cosa)*ty + (y*z*(1-cosa)-x*sina)*tz ,
                 (x*z*(1-cosa)-y*sina)*tx + (y*z*(1-cosa)+x*sina)*ty + (z2*(1-cosa)+cosa)*tz
-        );
+        ).normalize();
     }
 }
 
