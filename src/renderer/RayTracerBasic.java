@@ -19,7 +19,7 @@ public class RayTracerBasic extends RayTracerBase {
     //distance of virtual grid from intersection point, the level of distribution of rays is determine by grid length and width
     //according to the shape it is in.
     private static final double DISTANCE=1;
-    private static final double GRID_SQUARE_SIZE =0.0001;
+    private static final double GRID_SQUARE_SIZE =0.1;
 
     /**
      * ctor for RayTracerBasic class, this class extends RayTracerBase class witch contains the
@@ -160,7 +160,8 @@ public class RayTracerBasic extends RayTracerBase {
 
                 reflectedPoint= findClosestIntersection(ray,Double.POSITIVE_INFINITY);
                 if (reflectedPoint != null)
-                    colorReflected.add(calcGlobalEffect(ray, level-1,material.kR, kkr));
+                    //colorReflected.add(calcGlobalEffect(ray, level-1,material.kR, kkr));
+                    colorReflected= colorReflected.add(calcGlobalEffect(ray, level-1,material.kR, kkr));
             }
             color=colorReflected.reduce(listOfRay.size());
         }
@@ -173,10 +174,10 @@ public class RayTracerBasic extends RayTracerBase {
             for (Ray ray:listOfRay) {
                 refractedPoint=findClosestIntersection(ray,Double.POSITIVE_INFINITY);
             if (refractedPoint != null)
-                blurryColor.add(
+                blurryColor=blurryColor.add(
                         calcGlobalEffect(ray, level-1,material.kT, kkt));
             }
-            color.add(blurryColor.reduce(listOfRay.size()));
+            color = color.add(blurryColor.reduce(listOfRay.size()));
         }
 
         return color;

@@ -273,7 +273,7 @@ public final class Main {
 	}
 
 	public static void groupPicture() {
-		Scene scene = new Scene("group picture");
+		Scene scene = new Scene("new group picture");
 
 		Camera camera = new Camera(new Point(0, -10, 30), new Vector(0, 1, 0), new Vector(0, 0, 1)) //
 				.setVPSize(500, 500).setVPDistance(500).rotationUp(-25);
@@ -294,14 +294,14 @@ public final class Main {
 		scene.geometries.add(
 				new Sphere(sphre1Point,3)
 						.setEmission(Color.BLUE)
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1)),
-				new Sphere(new Point(0,23,20),20)
+						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setBlurry(15).setGlossy(15)),
+				new Sphere(new Point(0,23,20),3)
 						.setEmission(Color.BLUE.scale(0.5))
 						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.6).setKr(0.5))
 		);
 		// the floor
 		Material mat = new Material().setKd(1).setKs(0.5).setShininess(2);
-		int size = 5;
+		int size = 20;
 		for (int x = -50; x < 50; x += size) {
 			for (int y = 0; y < 100; y += size) {
 				if ((x + y+50) % (2*size) == 0)
@@ -325,7 +325,7 @@ public final class Main {
 					);
 			}
 		}
-		camera.setImageWriter(new ImageWriter("group picture", 500, 500)) //
+		camera.setImageWriter(new ImageWriter("new group picture", 500, 500)) //
 				.setRayTracer(new RayTracerBasic(scene)) //
 				.renderImage() //
 				.writeToImage("all");
