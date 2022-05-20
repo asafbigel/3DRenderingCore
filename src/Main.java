@@ -284,7 +284,7 @@ public final class Main {
 	//			.setKl(0.0004).setKq(0.0000006));
 		Material trMaterial = new Material().setKd(0.5).setKs(0.5).setShininess(30);
 		Point lightPoint =  new Point(-50, 0, 200);
-		Point sphre1Point = new Point(-5,20,3);
+		Point sphre1Point = new Point(-5,20,10);
 		scene.lights.add(new SpotLight(Color.WHITE.scale(0.1),lightPoint ,sphre1Point.subtract(lightPoint) )
 				.setKl(1E-15).setKq(1.5E-21));
 		//scene.ambientLight = new AmbientLight(new Color(35, 70, 120), 0.3);
@@ -295,19 +295,19 @@ public final class Main {
 				new Sphere(sphre1Point,3)
 						.setEmission(Color.BLUE)
 						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1)),
-				new Sphere(new Point(0,23,10),3)
+				new Sphere(new Point(0,23,20),3)
 						.setEmission(Color.BLUE.scale(0.5))
 						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.6).setKr(0.5))
 		);
 		// the floor
 		Material mat = new Material().setKd(1).setKs(0.5).setShininess(2);
-		int size = 11;
+		int size = 5;
 		for (int x = -50; x < 50; x += size) {
 			for (int y = 0; y < 100; y += size) {
 				if ((x + y+50) % (2*size) == 0)
 					scene.geometries.add(
 							new Triangle(new Point(x, y, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
-									.setEmission(Color.GREEN.scale(0.6))
+									.setEmission(Color.RED.scale(0.6))
 									.setMaterial(mat),
 							new Triangle(new Point(x + size, y + size, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
 									.setEmission(Color.RED.scale(0.6))
@@ -319,7 +319,7 @@ public final class Main {
 									.setEmission(Color.YELLOW.scale(0.6))
 									.setMaterial(mat),
 							new Triangle(new Point(x + size, y + size, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
-									.setEmission(Color.WHITE.scale(0.6))
+									.setEmission(Color.YELLOW.scale(0.6))
 									.setMaterial(mat)
 
 					);
@@ -332,8 +332,6 @@ public final class Main {
 
 	}
 
-
-	@Test
 	public static void DNA() {
 		Scene scene = new Scene("DNA");
 		Camera camera = new Camera(new Point(30, 5, 10), new Vector(-1, 0, 0), new Vector(0, 0, 1)) //
