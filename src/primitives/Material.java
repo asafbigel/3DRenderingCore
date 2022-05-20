@@ -8,6 +8,11 @@ public class Material {
     int nShininess=0;
     public Double3 kT=new Double3(0.0),kR=new Double3(0.0);
 
+
+    //for glossy and blurry effects.
+    public  int glossy=10;
+    public int blurry=10;
+
     /**
      * setter for attenuation factor kt
      * @param kT Double3 type
@@ -120,4 +125,25 @@ public class Material {
     public int getnShininess() {
         return nShininess;
     }
+
+    /**
+     * setter for glossy effect factor.
+     * @param glossy int type of how much a material is glossy.
+     * @return this for builder design patterns.
+     */
+    public Material setGlossy(int glossy) {
+        this.glossy = glossy;
+        return this;
+    }
+
+    /**
+     *
+     * @param blurry
+     * @return
+     */
+    public Material setBlurry(int blurry) {
+        this.blurry = blurry;
+        return this;
+    }
+
 }

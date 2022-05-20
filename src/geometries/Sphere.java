@@ -1,5 +1,6 @@
 package geometries;
 
+import org.junit.jupiter.engine.descriptor.TestInstanceLifecycleUtils;
 import primitives.*;
 
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class Sphere extends Geometry {
 
         return p.subtract(this.center).normalize();
     }
+
     /**
      * each subclass of this intersectable will implement this part of
      * nvi function above.
@@ -73,7 +75,7 @@ public class Sphere extends Geometry {
      * @param ray Ray of intersection. (a cast ray)
      * @return List of all Geopoint intersections.
      */
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double minDis) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 
         try {
             Vector u = center.subtract(ray.getP0());
@@ -84,17 +86,32 @@ public class Sphere extends Geometry {
             double th = Math.sqrt((radius * radius) - (d * d));
             if (tm + th <= 0)
                 return null;
-            LinkedList<GeoPoint> l1 = new LinkedList<>();
-            l1.add( new GeoPoint(this, ray.getPoint(tm + th)));
-            //l1.add(ray.getP0().add(ray.getDir().scale(tm + th))); refactor
-            if (tm > th)
-                l1.add(new GeoPoint(this, ray.getPoint(tm - th)));
-            //l1.add(ray.getP0().add(ray.getDir().scale(tm - th)));refactor.
+            LinkedList<GeoPoint> l1 = null;
+            GeoPoint gp = new GeoPoint(this, ray.getPoint(tm + th));
+            if (gp.point.distance(ray.getP0()) < maxDistance) {
+                l1 = new LinkedList<>();
+                l1.add(gp);
+            }
+
+            if (tm > th) {
+                GeoPoint gp2 = new GeoPoint(this, ray.getPoint(tm - th));
+                if (gp2.point.distance(ray.getP0()) < maxDistance) {
+                    if (l1 != null)
+                        l1.add(gp2);
+                    else {
+                        l1 = new LinkedList<>();
+                        l1.add(gp2);
+                    }
+
+                }
+            }
             return l1;
-        } catch (IllegalArgumentException e) {
-            LinkedList<GeoPoint> l1 = new LinkedList<>();
+        }
+        catch (IllegalArgumentException e) {
+            List<GeoPoint> l1 = new LinkedList<>();
             l1.add(new GeoPoint(this, center.add(ray.getDir().scale(radius))));
             return l1;
         }
     }
 }
+

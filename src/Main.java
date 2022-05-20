@@ -295,7 +295,7 @@ public final class Main {
 				new Sphere(sphre1Point,3)
 						.setEmission(Color.BLUE)
 						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1)),
-				new Sphere(new Point(0,23,20),3)
+				new Sphere(new Point(0,23,20),20)
 						.setEmission(Color.BLUE.scale(0.5))
 						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.6).setKr(0.5))
 		);

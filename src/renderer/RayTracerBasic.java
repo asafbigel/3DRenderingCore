@@ -1,6 +1,5 @@
 package renderer;
 
-import geometries.Intersectable;
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
@@ -17,7 +16,10 @@ public class RayTracerBasic extends RayTracerBase {
     private static final double MIN_CALC_COLOR_K = 0.001;
     private static final double INITIAL_K = 1.0;
     private static final int MAX_CALC_COLOR_LEVEL = 10;
-
+    //distance of virtual grid from intersection point, the level of distribution of rays is determine by grid length and width
+    //according to the shape it is in.
+    private static final double DISTANCE=1;
+    private static final double GRID_SQUARE_SIZE =0.0001;
 
     /**
      * ctor for RayTracerBasic class, this class extends RayTracerBase class witch contains the
@@ -147,20 +149,34 @@ public class RayTracerBasic extends RayTracerBase {
         Vector n = gp.geometry.getNormal(gp.point);
         Material material = gp.geometry.getMaterial();
         Double3 kkr = material.kR.product(k);
+        List<Ray>listOfRay;
 
         if (!kkr.lowerThan(MIN_CALC_COLOR_K)){
             Ray reflectedRay = constructReflectedRay(gp.point,v,n);
-            GeoPoint reflectedPoint = findClosestIntersection(reflectedRay,Double.POSITIVE_INFINITY);
-            if (reflectedPoint != null)
-                color = calcGlobalEffect(reflectedRay, level-1,material.kR, kkr);
+            GeoPoint reflectedPoint;
+            Color colorReflected=Color.BLACK;
+            listOfRay=reflectedRay.listOfRays(gp.geometry.getMaterial().glossy, GRID_SQUARE_SIZE,DISTANCE);
+            for (Ray ray:listOfRay) {
+
+                reflectedPoint= findClosestIntersection(ray,Double.POSITIVE_INFINITY);
+                if (reflectedPoint != null)
+                    colorReflected.add(calcGlobalEffect(ray, level-1,material.kR, kkr));
+            }
+            color=colorReflected.reduce(listOfRay.size());
         }
         Double3 kkt = material.kT.product(k);
         if (!kkt.lowerThan(MIN_CALC_COLOR_K)){
             Ray refractedRay = constructRefractedRay(gp.point,v,n);
-            GeoPoint refractedPoint = findClosestIntersection(refractedRay,Double.POSITIVE_INFINITY);
+            listOfRay=refractedRay.listOfRays(gp.geometry.getMaterial().blurry, GRID_SQUARE_SIZE,DISTANCE);
+            GeoPoint refractedPoint;
+            Color blurryColor=Color.BLACK;
+            for (Ray ray:listOfRay) {
+                refractedPoint=findClosestIntersection(ray,Double.POSITIVE_INFINITY);
             if (refractedPoint != null)
-                color = color.add(
-                        calcGlobalEffect(refractedRay, level-1,material.kT, kkt));
+                blurryColor.add(
+                        calcGlobalEffect(ray, level-1,material.kT, kkt));
+            }
+            color.add(blurryColor.reduce(listOfRay.size()));
         }
 
         return color;
@@ -198,7 +214,6 @@ public class RayTracerBasic extends RayTracerBase {
      * @return Ray type of secondary refracted ray.
      */
     private Ray constructRefractedRay(Point point, Vector v, Vector n) {
-        //return new Ray(point.add(n.scale(-DELTA)),v);
         return new Ray(point,v,n);
     }
 
