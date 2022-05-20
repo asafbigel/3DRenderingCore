@@ -142,6 +142,8 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private Color calcGlobalEffects(GeoPoint gp, Vector v, int level, Double3 k) {
         Color color = Color.BLACK;
+        if (level < 2)
+            return color;
         Vector n = gp.geometry.getNormal(gp.point);
         Material material = gp.geometry.getMaterial();
         Double3 kkr = material.kR.product(k);

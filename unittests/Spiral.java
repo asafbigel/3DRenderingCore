@@ -15,7 +15,7 @@ import scene.Scene;
 public class Spiral {
     private Scene scene = new Scene("My Test");
     @Test
-    public void tenObjects() {
+    public void spiral() {
         Camera camera = new Camera(new Point(30, 5, 10), new Vector(-1, 0, 0), new Vector(0, 0, 1)) //
                 .setVPSize(500, 500).setVPDistance(250);
 
