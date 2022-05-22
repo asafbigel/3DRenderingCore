@@ -15,11 +15,11 @@ import static primitives.Util.alignZero;
 public class RayTracerBasic extends RayTracerBase {
     private static final double MIN_CALC_COLOR_K = 0.001;
     private static final double INITIAL_K = 1.0;
-    private static final int MAX_CALC_COLOR_LEVEL = 10;
+    private static final int MAX_CALC_COLOR_LEVEL = 4;
     //distance of virtual grid from intersection point, the level of distribution of rays is determine by grid length and width
     //according to the shape it is in.
-    private static final double DISTANCE=100;
-    private static final double GRID_SQUARE_SIZE =0.0001;
+    private static final double DISTANCE=10;
+    private static final double GRID_SQUARE_SIZE =0.01;
 
     /**
      * ctor for RayTracerBasic class, this class extends RayTracerBase class witch contains the
@@ -154,29 +154,45 @@ public class RayTracerBasic extends RayTracerBase {
         if (!kkr.lowerThan(MIN_CALC_COLOR_K)){
             Ray reflectedRay = constructReflectedRay(gp.point,v,n);
             GeoPoint reflectedPoint;
-            Color colorReflected=Color.BLACK;
-            listOfRay=reflectedRay.listOfRays(gp.geometry.getMaterial().glossy, GRID_SQUARE_SIZE,DISTANCE);
-            for (Ray ray:listOfRay) {
+            if (gp.geometry.getMaterial().glossy > 1) {
+                Color colorReflected = Color.BLACK;
+                listOfRay = reflectedRay.listOfRays(gp.geometry.getMaterial().glossy, GRID_SQUARE_SIZE, DISTANCE);
+                for (Ray ray : listOfRay) {
 
-                reflectedPoint= findClosestIntersection(ray,Double.POSITIVE_INFINITY);
-                if (reflectedPoint != null)
-                    colorReflected.add(calcGlobalEffect(ray, level-1,material.kR, kkr));
+                    reflectedPoint = findClosestIntersection(ray, Double.POSITIVE_INFINITY);
+                    if (reflectedPoint != null)
+                        //colorReflected.add(calcGlobalEffect(ray, level-1,material.kR, kkr));
+                        colorReflected = colorReflected.add(calcGlobalEffect(ray, level - 1, material.kR, kkr));
+                }
+                color = colorReflected.reduce(listOfRay.size());
             }
-            color.add(colorReflected.reduce(listOfRay.size()));
+            else{
+                reflectedPoint = findClosestIntersection(reflectedRay, Double.POSITIVE_INFINITY);
+                if (reflectedPoint != null)
+                    color = calcGlobalEffect(reflectedRay, level - 1, material.kR, kkr);
+            }
         }
         Double3 kkt = material.kT.product(k);
         if (!kkt.lowerThan(MIN_CALC_COLOR_K)){
-            Ray refractedRay = constructRefractedRay(gp.point,v,n);
-            listOfRay=refractedRay.listOfRays(gp.geometry.getMaterial().blurry, GRID_SQUARE_SIZE,DISTANCE);
             GeoPoint refractedPoint;
-            Color blurryColor=Color.BLACK;
-            for (Ray ray:listOfRay) {
-                refractedPoint=findClosestIntersection(ray,Double.POSITIVE_INFINITY);
-            if (refractedPoint != null)
-                blurryColor.add(
-                        calcGlobalEffect(ray, level-1,material.kT, kkt));
+            Ray refractedRay = constructRefractedRay(gp.point,v,n);
+            if (gp.geometry.getMaterial().blurry >1) {
+                listOfRay = refractedRay.listOfRays(gp.geometry.getMaterial().blurry, GRID_SQUARE_SIZE, DISTANCE);
+                Color blurryColor = Color.BLACK;
+                for (Ray ray : listOfRay) {
+                    refractedPoint = findClosestIntersection(ray, Double.POSITIVE_INFINITY);
+                    if (refractedPoint != null)
+                        blurryColor = blurryColor.add(
+                                calcGlobalEffect(ray, level - 1, material.kT, kkt));
+                }
+
+                color = color.add(blurryColor.reduce(listOfRay.size()));
             }
-            color.add(blurryColor.reduce(listOfRay.size()));
+            else {
+                refractedPoint = findClosestIntersection(refractedRay, Double.POSITIVE_INFINITY);
+                if (refractedPoint != null)
+                color = color.add(calcGlobalEffect(refractedRay, level - 1, material.kT, kkt));
+            }
         }
 
         return color;
