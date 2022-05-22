@@ -295,13 +295,13 @@ public final class Main {
 				new Sphere(sphre1Point,3)
 						.setEmission(Color.BLUE)
 						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1)),
-				new Sphere(new Point(0,23,20),20)
+				new Sphere(new Point(0,23,20),3)
 						.setEmission(Color.BLUE.scale(0.5))
 						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.6).setKr(0.5))
 		);
 		// the floor
 		Material mat = new Material().setKd(1).setKs(0.5).setShininess(2);
-		int size = 5;
+		int size = 15;
 		for (int x = -50; x < 50; x += size) {
 			for (int y = 0; y < 100; y += size) {
 				if ((x + y+50) % (2*size) == 0)

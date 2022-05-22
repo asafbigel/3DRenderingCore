@@ -10,8 +10,8 @@ public class Material {
 
 
     //for glossy and blurry effects.
-    public  int glossy=10;
-    public int blurry=10;
+    public  int glossy=2;
+    public int blurry=2;
 
     /**
      * setter for attenuation factor kt

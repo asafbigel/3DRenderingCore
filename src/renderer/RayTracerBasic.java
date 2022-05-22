@@ -18,7 +18,7 @@ public class RayTracerBasic extends RayTracerBase {
     private static final int MAX_CALC_COLOR_LEVEL = 10;
     //distance of virtual grid from intersection point, the level of distribution of rays is determine by grid length and width
     //according to the shape it is in.
-    private static final double DISTANCE=1;
+    private static final double DISTANCE=100;
     private static final double GRID_SQUARE_SIZE =0.0001;
 
     /**
@@ -162,7 +162,7 @@ public class RayTracerBasic extends RayTracerBase {
                 if (reflectedPoint != null)
                     colorReflected.add(calcGlobalEffect(ray, level-1,material.kR, kkr));
             }
-            color=colorReflected.reduce(listOfRay.size());
+            color.add(colorReflected.reduce(listOfRay.size()));
         }
         Double3 kkt = material.kT.product(k);
         if (!kkt.lowerThan(MIN_CALC_COLOR_K)){
