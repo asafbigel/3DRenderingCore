@@ -125,7 +125,7 @@ public class Ray {
         Vector right=v.crossProduct(unit).scale(gridSquareSize);
         Vector down=v.crossProduct(right).scale(gridSquareSize);
         Point center=this.p0.add(v.scale(distance));
-        Point leftUpCorner=center.add(down.scale(size*-0.5)).add(right.scale(size*-0.5));
+        Point leftUpCorner=center.add(down.scale(size*-0.5 +1)).add(right.scale(size*-0.5 +1));
         List<Ray> listOfRay=new ArrayList<>(size*size);//we determine the size of the list to prevent the copying in resizing.
         for (int i=1;i<size+1;i++){
             for (int j=1;j<size+1;j++){
