@@ -279,34 +279,34 @@ public final class Main {
 	//			.setKl(0.0004).setKq(0.0000006));
 		Material trMaterial = new Material().setKd(0.5).setKs(0.5).setShininess(30);
 		Point lightPoint =  new Point(-50, 0, 200);
-		Point sphre1Point = new Point(-3,20,20);
+		Point sphre1Point = new Point(-8,20,4);
 		scene.lights.add(new SpotLight(Color.WHITE.scale(0.1),lightPoint ,sphre1Point.subtract(lightPoint) )
 				.setKl(1E-15).setKq(1.5E-21));
 		//scene.ambientLight = new AmbientLight(new Color(35, 70, 120), 0.3);
-		scene.background = Color.BLUE;
+		scene.background = Color.GREEN;
 
 				//sphere adding
 		scene.geometries.add(
-			//	new Sphere(sphre1Point,3)
-			//			.setEmission(Color.GREEN.scale(0.3))
-			//			.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(15)),
-			//	new Sphere(new Point(0,23,12),3)
-			//			.setEmission(Color.BLUE.scale(0.5))
-			//			.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.8).setBlurry(5))
-				new Triangle(new Point(3,20,12),new Point(-5,26,12),new Point(0,26,15))
+				new Sphere(sphre1Point,3)
+						.setEmission(Color.BLUE.scale(0.3))
+						.setMaterial(new Material().setKd(0.15).setKs(1).setShininess(70).setKr(0.6)),
+				new Sphere(new Point(0,23,12),3)
 						.setEmission(Color.BLUE.scale(0.5))
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.8).setBlurry(7)),
-				new Triangle(new Point(8,40,12),new Point(-10,40,12),new Point(0,35,25))
+						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(10).setKt(0.8).setKr(0.5)),
+				new Triangle(new Point(6,35,12),new Point(-8,41,12),new Point(0,41,18))
+						.setEmission(Color.BLUE.scale(0.5))
+						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.8).setBlurry(5)),
+				new Triangle(new Point(12,80,12),new Point(-14,80,12),new Point(0,75,35))
 						.setEmission(Color.BLACK)
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(30))
+						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(8))
 		);
 		// the floor
 		Material mat = new Material().setKd(1).setKs(0.5).setShininess(2);
-		int size = 10;
-	//	for (int x = -50; x < 50; x += size) {
-		for (int x = -20; x < 20; x += size) {
-	//		for (int y = 0; y < 100; y += size) {
-			for (int y = 0; y < 60; y += size) {
+		int size = 5;
+		for (int x = -50; x < 50; x += size) {
+	//	for (int x = -20; x < 20; x += size) {
+			for (int y = 0; y < 100; y += size) {
+	//		for (int y = 0; y < 60; y += size) {
 				if ((x + y+50) % (2*size) == 0)
 					scene.geometries.add(
 							new Triangle(new Point(x, y, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
@@ -328,10 +328,20 @@ public final class Main {
 					);
 			}
 		}
-		camera.setImageWriter(new ImageWriter("new group picture", 500, 500)) //
+		/*
+		camera.setImageWriter(new ImageWriter("group picture without effects", 500, 500)) //
 				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(false)) //
 				.renderImage() //
 				.writeToImage("all");
+		*/
+
+//		/*
+		camera.setImageWriter(new ImageWriter("group picture with effects", 500, 500)) //
+				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(true)) //
+				.renderImage() //
+				.writeToImage("all");
+
+//		 */
 
 	}
 
