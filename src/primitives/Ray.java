@@ -142,6 +142,13 @@ public class Ray {
 
  */
 
+    /**
+     * function used for glossy and blurry objects, to create a beam of rays from one ray.
+     * @param size size of grid.
+     * @param gridSquareSize for each square its size.
+     * @param distance distance of grid from intersection point.
+     * @return a list of generated rays to calculate average color.
+     */
     public List<Ray> listOfRays(int size,double gridSquareSize,double distance){
 
         Vector v=this.getDir().normalize();
