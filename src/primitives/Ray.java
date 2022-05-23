@@ -116,12 +116,38 @@ public class Ray {
         }
         return p1;
     }
+/*
+    private List<Ray> superSample(double k,int resolution,double distance, double smudge){
+        List<Ray> diffusedSampling=new ArrayList<>();
+        Vector vUp;
+        Vector vRight;
+        Vector vTo = this.getDir();
+        //in order to determine Vup, we will find the intersection vector of two planes, the plane that Vto is represented
+        //as its normal, and the plane that includes the Y axis and the Vto vector (as demanded in the instructions).
+
+        //if the Vto is already on the Y axis, we will use the Z axis instead
+        if (vTo.equals(new Vector(0, 1, 0)) || vTo.equals(new Vector(0, -1, 0))) {
+            vUp = (vTo.crossProduct(new Vector(0, 0, 1))).crossProduct(vTo).normalize();
+        } else {
+            vUp = (vTo.crossProduct(new Vector(0, 1, 0))).crossProduct(vTo).normalize();
+        }
+        vRight = vTo.crossProduct(vUp).normalize();
+        for (int i=0;i<resolution;i++){
+            for (int j=0;j<resolution;j++){
+                diffusedSampling.add(createRayBeam(i,j,this,vTo,vUp,vRight,k,resolution,distance,smudge));
+            }
+        }
+        return diffusedSampling;
+    }
+
+ */
 
     public List<Ray> listOfRays(int size,double gridSquareSize,double distance){
+
         Vector v=this.getDir().normalize();
-        Vector unit=new Vector(1,0,0);
-        if (v==unit)
-            unit=new Vector(0,1,0);
+        Vector unit=new Vector(1,1,1).normalize();
+        if (v.equals(unit))
+            unit=new Vector(1,0,0);
         Vector right=v.crossProduct(unit).scale(gridSquareSize);
         Vector down=v.crossProduct(right).scale(gridSquareSize);
         Point center=this.p0.add(v.scale(distance));

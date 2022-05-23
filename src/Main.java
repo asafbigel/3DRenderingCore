@@ -1,16 +1,9 @@
 import geometries.*;
 import lighting.*;
-import org.junit.jupiter.api.Test;
 import primitives.*;
 import renderer.*;
 import scene.Scene;
 
-
-import java.util.Date;
-import java.util.Timer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.out;
 
@@ -35,6 +28,8 @@ public final class Main {
 		//TenObjects();
 		groupPicture();
 		//DNA();
+		//testGlossy();
+		//testBlurry();
 
 		out.println(System.currentTimeMillis());
 		//	out.print("Total time: ");
@@ -284,7 +279,7 @@ public final class Main {
 	//			.setKl(0.0004).setKq(0.0000006));
 		Material trMaterial = new Material().setKd(0.5).setKs(0.5).setShininess(30);
 		Point lightPoint =  new Point(-50, 0, 200);
-		Point sphre1Point = new Point(-5,20,12);
+		Point sphre1Point = new Point(-3,20,20);
 		scene.lights.add(new SpotLight(Color.WHITE.scale(0.1),lightPoint ,sphre1Point.subtract(lightPoint) )
 				.setKl(1E-15).setKq(1.5E-21));
 		//scene.ambientLight = new AmbientLight(new Color(35, 70, 120), 0.3);
@@ -292,15 +287,18 @@ public final class Main {
 
 				//sphere adding
 		scene.geometries.add(
-				new Sphere(sphre1Point,3)
-						.setEmission(Color.BLUE)
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(30)),
+			//	new Sphere(sphre1Point,3)
+			//			.setEmission(Color.GREEN.scale(0.3))
+			//			.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(15)),
 			//	new Sphere(new Point(0,23,12),3)
 			//			.setEmission(Color.BLUE.scale(0.5))
 			//			.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.8).setBlurry(5))
 				new Triangle(new Point(3,20,12),new Point(-5,26,12),new Point(0,26,15))
 						.setEmission(Color.BLUE.scale(0.5))
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.8).setBlurry(30))
+						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.8).setBlurry(7)),
+				new Triangle(new Point(8,40,12),new Point(-10,40,12),new Point(0,35,25))
+						.setEmission(Color.BLACK)
+						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(30))
 		);
 		// the floor
 		Material mat = new Material().setKd(1).setKs(0.5).setShininess(2);
@@ -412,5 +410,67 @@ public final class Main {
 				.setRayTracer(new RayTracerBasic(scene)) //
 				.renderImage() //
 				.writeToImage();
+	}
+
+	public static void testGlossy() {
+		//     private static final double DISTANCE=10
+		//    private static final double GRID_SQUARE_SIZE =0.1
+		Scene scene = new Scene("Test scene");
+		Camera camera = new Camera(new Point(0, 0, 10000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPSize(2500, 2500).setVPDistance(10000); //
+
+		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0.1));
+
+		scene.geometries.add( //
+				new Sphere(new Point(-950, -900, -1000), 400d).setEmission(new Color(0, 0, 100)) //
+						.setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20).setKt(0.5)),
+				new Sphere(new Point(-950, -900, -1000), 200d).setEmission(new Color(100, 20, 20)) //
+						.setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+				new Triangle(new Point(1500, -1500, -1500), new Point(-1500, 1500, -1500), new Point(670, 670, 3000)) //
+						.setEmission(new Color(20, 20, 20)) //
+						.setMaterial(new Material().setKr(1).setGlossy(15)),
+				new Triangle(new Point(1500, -1500, -1500), new Point(-1500, 1500, -1500),
+						new Point(-1500, -1500, -2000)) //
+						.setEmission(new Color(20, 20, 20)) //
+						.setMaterial(new Material().setKr(0.5)));
+
+		scene.lights.add(new SpotLight(new Color(1020, 400, 400), new Point(-750, -750, -150), new Vector(-1, -1, -4)) //
+				.setKl(0.00001).setKq(0.000005));
+
+		ImageWriter imageWriter = new ImageWriter("test glossy", 500, 500);
+		camera.setImageWriter(imageWriter) //
+				.setRayTracer(new RayTracerBasic(scene)) //
+				.renderImage() //
+				.writeToImage("all");
+	}
+
+	public static void testBlurry() {
+		Scene scene = new Scene("Test scene");
+		Camera camera = new Camera(new Point(0, 0, 10000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPSize(2500, 2500).setVPDistance(10000); //
+
+		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0.1));
+
+		scene.geometries.add( //
+				new Sphere(new Point(-950, -900, -1000), 400d).setEmission(new Color(0, 0, 100)) //
+						.setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20).setKt(0.5)),
+				new Sphere(new Point(-950, -900, -1000), 200d).setEmission(new Color(100, 20, 20)) //
+						.setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+				new Triangle(new Point(1500, -1500, -1500), new Point(-1500, 1500, -1500), new Point(670, 670, 3000)) //
+						.setEmission(new Color(20, 20, 20)) //
+						.setMaterial(new Material().setKr(1).setBlurry(7)),
+				new Triangle(new Point(1500, -1500, -1500), new Point(-1500, 1500, -1500),
+						new Point(-1500, -1500, -2000)) //
+						.setEmission(new Color(20, 20, 20)) //
+						.setMaterial(new Material().setKr(0.5)));
+
+		scene.lights.add(new SpotLight(new Color(1020, 400, 400), new Point(-750, -750, -150), new Vector(-1, -1, -4)) //
+				.setKl(0.00001).setKq(0.000005));
+
+		ImageWriter imageWriter = new ImageWriter("test blurry", 500, 500);
+		camera.setImageWriter(imageWriter) //
+				.setRayTracer(new RayTracerBasic(scene)) //
+				.renderImage() //
+				.writeToImage("all");
 	}
 }
