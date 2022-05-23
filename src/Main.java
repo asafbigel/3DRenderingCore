@@ -294,7 +294,7 @@ public final class Main {
 		scene.geometries.add(
 				new Sphere(sphre1Point,3)
 						.setEmission(Color.BLUE)
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(30)),
+						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(50)),
 			//	new Sphere(new Point(0,23,12),3)
 			//			.setEmission(Color.BLUE.scale(0.5))
 			//			.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.8).setBlurry(5))
