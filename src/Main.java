@@ -329,7 +329,7 @@ public final class Main {
 			}
 		}
 		camera.setImageWriter(new ImageWriter("new group picture", 500, 500)) //
-				.setRayTracer(new RayTracerBasic(scene)) //
+				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(false)) //
 				.renderImage() //
 				.writeToImage("all");
 
