@@ -15,11 +15,11 @@ import static primitives.Util.alignZero;
 public class RayTracerBasic extends RayTracerBase {
     private static final double MIN_CALC_COLOR_K = 0.001;
     private static final double INITIAL_K = 1.0;
-    private static final int MAX_CALC_COLOR_LEVEL = 4;
+    private static final int MAX_CALC_COLOR_LEVEL = 10;
     //distance of virtual grid from intersection point, the level of distribution of rays is determine by grid length and width
     //according to the shape it is in.
     private static final double DISTANCE=10;
-    private static final double GRID_SQUARE_SIZE =0.01;
+    private static final double GRID_SQUARE_SIZE =0.1;
 
     /**
      * ctor for RayTracerBasic class, this class extends RayTracerBase class witch contains the
