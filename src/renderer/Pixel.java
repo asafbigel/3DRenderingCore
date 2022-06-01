@@ -101,7 +101,6 @@ class Pixel {
                 if (print)
                     System.out.print("");
             }
-
         }
         if (print)
             System.out.println("100.0%");
