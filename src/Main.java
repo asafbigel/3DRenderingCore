@@ -23,10 +23,14 @@ public final class Main {
 		out.println(System.currentTimeMillis());
 		var start = System.currentTimeMillis();
 
-		//Helicopter();
+		Helicopter();
 		//Helicopter1();
 		//TenObjects();
-		groupPicture();
+		//groupPicture();
+		out.println("first time: " + (System.currentTimeMillis() - start) / 1000 + "sec");
+		var middle = System.currentTimeMillis();
+		//groupPictureThread();
+		out.println("sec time: " + (System.currentTimeMillis() - middle) / 1000 + "sec");
 		//DNA();
 		//testGlossy();
 		//testBlurry();
@@ -39,9 +43,10 @@ public final class Main {
 
 	public static void Helicopter() {
 		Scene scene = new Scene("My Helicopter");
+		Point p = new Point(0, 0, 57.5);
 
-		Camera camera = new Camera(new Point(60, 0, -30), new Vector(1, 0, 0), new Vector(0, 0, 1)) //
-				.setVPSize(500, 500).setVPDistance(1000);
+		Camera camera = new Camera(new Point(60, 0, -30), new Point(0,0,50)) //
+				.setVPSize(500, 500).setVPDistance(5);
 
 		scene.lights.add(new SpotLight(new Color(1000, 600, 0), new Point(-100, -100, 500), new Vector(-1, -1, -2)) //
 				.setKl(0.0004).setKq(0.0000006));
@@ -54,8 +59,7 @@ public final class Main {
 						.setEmission(Color.GREEN)
 						.setMaterial(new Material())
 		);
-		camera.moveRight(-70).moveForward(-200).moveUp(100).rotationLeft(-30);
-		Point p = new Point(0, 0, 57.5);
+		//camera.moveRight(-70).moveForward(-200).moveUp(100).rotationLeft(-30);
 		scene.geometries.add(
 				new Sphere(new Point(0, 0, 50), 7)
 						.setEmission(Color.BLUE)
@@ -80,6 +84,11 @@ public final class Main {
 						.setMaterial(new Material().setKr(0.7).setKd(0.3).setKs(0.3).setShininess(2))
 		);
 
+		camera.setImageWriter(new ImageWriter("check", 500, 500)) //
+				.setRayTracer(new RayTracerBasic(scene))
+				.renderImage() //
+				.writeToImage("all");
+/*
 		int i;
 		for (i = 0; i < 139; i++) {
 			camera.moveRight(-3)
@@ -101,6 +110,8 @@ public final class Main {
 					.renderImage() //
 					.writeToImage("helicopter");
 		}
+
+ */
 	}
 
 
@@ -328,21 +339,93 @@ public final class Main {
 					);
 			}
 		}
-		/*
+
 		camera.setImageWriter(new ImageWriter("group picture without effects", 500, 500)) //
 				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(false)) //
 				.renderImage() //
 				.writeToImage("all");
-		*/
-
-//		/*
+		/*
 		camera.setImageWriter(new ImageWriter("group picture with effects", 500, 500)) //
 				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(true)) //
 				.renderImage() //
 				.writeToImage("all");
+		 */
 
-//		 */
+	}
 
+	public static void groupPictureThread() {
+		Scene scene = new Scene("new group picture");
+
+		Camera camera = new Camera(new Point(0, -10, 30), new Vector(0, 1, 0), new Vector(0, 0, 1)) //
+				.setVPSize(500, 500).setVPDistance(500).rotationUp(-25);
+
+		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0.1));
+
+		//	scene.lights.add(new SpotLight(new Color(1000, 600, 0), new Point(-100, -100, 500), new Vector(-1, -1, -2)) //
+		//			.setKl(0.0004).setKq(0.0000006));
+		Material trMaterial = new Material().setKd(0.5).setKs(0.5).setShininess(30);
+		Point lightPoint =  new Point(-50, 0, 200);
+		Point sphre1Point = new Point(-8,20,4);
+		scene.lights.add(new SpotLight(Color.WHITE.scale(0.1),lightPoint ,sphre1Point.subtract(lightPoint) )
+				.setKl(1E-15).setKq(1.5E-21));
+		//scene.ambientLight = new AmbientLight(new Color(35, 70, 120), 0.3);
+		scene.background = Color.GREEN;
+
+		//sphere adding
+		scene.geometries.add(
+				new Sphere(sphre1Point,3)
+						.setEmission(Color.BLUE.scale(0.3))
+						.setMaterial(new Material().setKd(0.15).setKs(1).setShininess(70).setKr(0.6)),
+				new Sphere(new Point(0,23,12),3)
+						.setEmission(Color.BLUE.scale(0.5))
+						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(10).setKt(0.8).setKr(0.5)),
+				new Triangle(new Point(6,35,12),new Point(-8,41,12),new Point(0,41,18))
+						.setEmission(Color.BLUE.scale(0.5))
+						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.8).setBlurry(5)),
+				new Triangle(new Point(12,80,12),new Point(-14,80,12),new Point(0,75,35))
+						.setEmission(Color.BLACK)
+						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(8))
+		);
+		// the floor
+		Material mat = new Material().setKd(1).setKs(0.5).setShininess(2);
+		int size = 5;
+		for (int x = -50; x < 50; x += size) {
+			//	for (int x = -20; x < 20; x += size) {
+			for (int y = 0; y < 100; y += size) {
+				//		for (int y = 0; y < 60; y += size) {
+				if ((x + y+50) % (2*size) == 0)
+					scene.geometries.add(
+							new Triangle(new Point(x, y, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
+									.setEmission(Color.RED.scale(0.6))
+									.setMaterial(mat),
+							new Triangle(new Point(x + size, y + size, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
+									.setEmission(Color.RED.scale(0.6))
+									.setMaterial(mat)
+					);
+				else
+					scene.geometries.add(
+							new Triangle(new Point(x, y, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
+									.setEmission(Color.YELLOW.scale(0.6))
+									.setMaterial(mat),
+							new Triangle(new Point(x + size, y + size, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
+									.setEmission(Color.YELLOW.scale(0.6))
+									.setMaterial(mat)
+
+					);
+			}
+		}
+
+		camera.setImageWriter(new ImageWriter("group picture without effects- with threads", 500, 500)) //
+				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(false)) //
+				.renderImageWithThread() //
+				.writeToImage("all");
+		/*
+		camera.setImageWriter(new ImageWriter("group picture with effects- with threads", 500, 500)) //
+				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(true)) //
+				.renderImageWithThread() //
+				.writeToImage("all");
+
+		 */
 	}
 
 	public static void DNA() {

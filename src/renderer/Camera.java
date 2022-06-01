@@ -1,6 +1,8 @@
 package renderer;
 import primitives.*;
 import java.util.MissingResourceException;
+import java.util.stream.IntStream;
+
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
@@ -110,6 +112,20 @@ public class Camera {
         rtb = null;
     }
 
+    public Camera(Point cameraLocation,Point imageCenterLocation) {
+        this.p0 = cameraLocation;
+        this.vTo = imageCenterLocation.subtract(cameraLocation).normalize();
+        double x = vTo.getX();
+        double y = vTo.getY();
+        double z = vTo.getZ();
+        this.vUp = new Vector(x,y, -(x*x + y*y)/z).normalize();
+        //if (vTo.dotProduct(vUp) != 0)
+         //   throw new IllegalArgumentException();
+        this.vRight = this.vTo.crossProduct(this.vUp);
+        iw = null;
+        rtb = null;
+    }
+
     /**
      * setter for view plane size.
      * notice that it returns *this* instance for cat.
@@ -196,6 +212,26 @@ public class Camera {
                 Color c = castRay(j,i);
                 iw.writePixel(i, j, c);
             }
+        return this;
+    }
+
+    public Camera renderImageWithThread() {
+        if (height == 0 || width == 0 || iw == null || rtb == null) {
+            throw new MissingResourceException("not enough variables.", "Camera", "1");
+        }
+        int nY = iw.getNy();
+        int nX = iw.getNx();
+        Pixel.initialize(nY, nX, 1);
+        int threadsCount = 3;
+        while (threadsCount-- > 0) {
+            new Thread(() -> {
+                for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone()) {
+                    Color c = castRay(pixel.col, pixel.row);
+                    iw.writePixel(pixel.row, pixel.col, c);
+                }
+            }).start();
+        }
+        Pixel.waitToFinish();
         return this;
     }
 
