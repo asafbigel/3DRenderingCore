@@ -40,7 +40,7 @@ public class Triangle extends Polygon {
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        List<Point> l1 = new Plane(this.vertices.get(0),this.getNormal(this.vertices.get(0))).findIntersections(ray);
+        List<Point> l1 = this.plane.findIntersections(ray);
         if (l1 == null) //case1: ray in parallel to triangle plane.
             return null;
         Vector v1=this.vertices.get(0).subtract(ray.getP0());
