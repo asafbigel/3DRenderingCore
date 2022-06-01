@@ -1,7 +1,6 @@
 package geometries;
 import primitives.Point;
 import primitives.Ray;
-import scene.Scene;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -28,9 +27,15 @@ public class Geometries extends Intersectable{
 
     /**
      * @param geometries The geometries
+     * @return
      */
-    public void add(Intersectable... geometries){
+    public Geometries add(Intersectable... geometries){
         shapes.addAll(List.of(geometries));
+        return this;
+    }
+    public Geometries addAll(Geometries geometries){
+        shapes.addAll(geometries.getShapes());
+        return this;
     }
 
     /**

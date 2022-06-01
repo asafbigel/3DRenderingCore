@@ -6,7 +6,12 @@ import java.util.List;
 
 public class Cube extends Intersectable {
     Point[] bounds = new Point[2];
-    Geometries geometry; //all the shapes that is in this cube.
+
+    public Geometries getGeometry() {
+        return geometry;
+    }
+
+    Geometries geometry = new Geometries(); //all the shapes that is in this cube.
 
     public Cube(Point min, Point max) {
         this.bounds[0] = min;
@@ -27,10 +32,17 @@ public class Cube extends Intersectable {
             return null;
         return geometry.findGeoIntersectionsHelper(ray,maxDistance);
     }
+    public Cube add(Intersectable... geometries) {
+
+        geometry.add(geometries);
+
+        return this;
+    }
 
     boolean intersect(Ray r) {
         int[] sign = new int[3];
-        Vector invdir=r.getDir().scale(-1);
+        //Vector invdir=r.getDir().scale(-1);
+        Vector invdir= new Vector(1/r.getDir().getX(),1/r.getDir().getY(),1/r.getDir().getZ());
         sign[0]=(invdir.getX()<0?1:0);
         sign[1]=(invdir.getY()<0?1:0);
         sign[2]=(invdir.getZ()<0?1:0);
