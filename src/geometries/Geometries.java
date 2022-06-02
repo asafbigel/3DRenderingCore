@@ -34,7 +34,13 @@ public class Geometries extends Intersectable{
         return this;
     }
     public Geometries addAll(Geometries geometries){
-        shapes.addAll(geometries.getShapes());
+        for (Intersectable shape:geometries.shapes) {
+            if (shape instanceof Cube){
+                this.addAll(((Cube) shape).geometry);
+            }
+            else
+                shapes.add(shape);
+        }
         return this;
     }
 

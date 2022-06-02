@@ -14,31 +14,33 @@ import static java.lang.System.out;
  */
 public final class Main {
 
+	static Scene scene;
+	static Camera camera;
+	static Cube cube;
 	/**
 	 * Main program to tests initial functionality of the 1st stage
 	 *
 	 * @param args irrelevant here
 	 */
 	public static void main(String[] args) {
-		out.println(System.currentTimeMillis());
+		setSceneAndCamera();
 		var start = System.currentTimeMillis();
-
-		//Helicopter();
-		//Helicopter1();
-		//TenObjects();
-		groupPicture_prove();
-		out.println("first time: " + (System.currentTimeMillis() - start) / 1000 + "sec");
-		var middle = System.currentTimeMillis();
+		out.println(start);
 		groupPicture();
-		//groupPictureThread();
-		out.println("sec time: " + (System.currentTimeMillis() - middle) / 1000 + "sec");
-		//DNA();
-		//testGlossy();
-		//testBlurry();
+		var middle1 = System.currentTimeMillis();
+		out.println("first picture (no improvements): " + (middle1 - start) / 1000 + "sec");
+		groupPicture_Cube();
+		var middle2 = System.currentTimeMillis();
+		out.println("second picture (cube): " + (middle2 - middle1) / 1000 + "sec");
+		groupPictureWithThreads();
+		var middle3 = System.currentTimeMillis();
+		out.println("third picture (threads): " + (middle3 - middle2) / 1000 + "sec");
+		groupPicture_CubeAndThreads();
+		var end = System.currentTimeMillis();
+		out.println("last picture (cube and threads): " + (end - middle3) / 1000 + "sec");
 
 		out.println(System.currentTimeMillis());
-		//	out.print("Total time: ");
-		out.println("Total time: " + (System.currentTimeMillis() - start) / 1000 + "sec");
+		out.println("Total time: " + (end - start) / 1000 + "sec");
 	}
 
 
@@ -280,68 +282,6 @@ public final class Main {
 	}
 
 	public static void groupPicture() {
-		Scene scene = new Scene("new group picture");
-
-		Camera camera = new Camera(new Point(0, -10, 30), new Vector(0, 1, 0), new Vector(0, 0, 1)) //
-				.setVPSize(500, 500).setVPDistance(500).rotationUp(-25);
-
-		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0.1));
-
-		//	scene.lights.add(new SpotLight(new Color(1000, 600, 0), new Point(-100, -100, 500), new Vector(-1, -1, -2)) //
-	//			.setKl(0.0004).setKq(0.0000006));
-		Material trMaterial = new Material().setKd(0.5).setKs(0.5).setShininess(30);
-		Point lightPoint =  new Point(-50, 0, 200);
-		Point sphre1Point = new Point(-8,20,4);
-		scene.lights.add(new SpotLight(Color.WHITE.scale(0.1),lightPoint ,sphre1Point.subtract(lightPoint) )
-				.setKl(1E-15).setKq(1.5E-21));
-		//scene.ambientLight = new AmbientLight(new Color(35, 70, 120), 0.3);
-		scene.background = Color.GREEN;
-		Cube cube1 = new Cube(new Point(-13,10,0), new Point(15,90,40));
-
-				//sphere adding
-		cube1.add(
-				new Sphere(sphre1Point,3)
-						.setEmission(Color.BLUE.scale(0.3))
-						.setMaterial(new Material().setKd(0.15).setKs(1).setShininess(70).setKr(0.6)),
-				new Sphere(new Point(0,23,12),3)
-						.setEmission(Color.BLUE.scale(0.5))
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(10).setKt(0.8).setKr(0.5)),
-				new Triangle(new Point(6,35,12),new Point(-8,41,12),new Point(0,41,18))
-						.setEmission(Color.BLUE.scale(0.5))
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.8).setBlurry(5)),
-				new Triangle(new Point(12,80,12),new Point(-14,80,12),new Point(0,75,35))
-						.setEmission(Color.BLACK)
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(8))
-		);
-		// the floor
-		Material mat = new Material().setKd(1).setKs(0.5).setShininess(2);
-		int size = 15;
-		Cube cube = new Cube(new Point(-50,0,-0.1), new Point(50+size,100+size,0.1));
-		for (int x = -50; x < 50; x += size) {
-	//	for (int x = -20; x < 20; x += size) {
-			for (int y = 0; y < 100; y += size) {
-	//		for (int y = 0; y < 60; y += size) {
-				if ((x + y+50) % (2*size) == 0)
-					cube.add(
-							new Triangle(new Point(x, y, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
-									.setEmission(Color.RED.scale(0.6))
-									.setMaterial(mat),
-							new Triangle(new Point(x + size, y + size, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
-									.setEmission(Color.RED.scale(0.6))
-									.setMaterial(mat)
-					);
-				else
-					cube.add(
-							new Triangle(new Point(x, y, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
-									.setEmission(Color.YELLOW.scale(0.6))
-									.setMaterial(mat),
-							new Triangle(new Point(x + size, y + size, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
-									.setEmission(Color.YELLOW.scale(0.6))
-									.setMaterial(mat)
-
-					);
-			}
-		}
 
 		/*
 		camera.setImageWriter(new ImageWriter("group picture without effects", 500, 500)) //
@@ -350,13 +290,11 @@ public final class Main {
 				.writeToImage("all");
 
 		 */
-
 		scene.geometries = new Geometries().addAll(cube.getGeometry());
-		scene.geometries.addAll(cube1.getGeometry());
-		camera.setImageWriter(new ImageWriter("group picture with effects !&cube", 500, 500)) //
+		camera.setImageWriter(new ImageWriter("without improvements", 500, 500)) //
 				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(true)) //
-				.renderImageWithThread() //
-				.writeToImage("all");
+				.renderImage() //
+				.writeToImage("Final");
 		/*
 		scene.geometries = new Geometries(cube,cube1);
 		camera.setImageWriter(new ImageWriter("group picture with effects & cube", 500, 500)) //
@@ -367,10 +305,62 @@ public final class Main {
 
 
 	}
-	public static void groupPicture_prove() {
-		Scene scene = new Scene("new group picture");
+	public static void groupPicture_Cube() {
+		/*
+		camera.setImageWriter(new ImageWriter("group picture without effects", 500, 500)) //
+				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(false)) //
+				.renderImage() //
+				.writeToImage("all");
 
-		Camera camera = new Camera(new Point(0, -10, 30), new Vector(0, 1, 0), new Vector(0, 0, 1)) //
+		 */
+		scene.geometries=new Geometries(cube);
+		camera.setImageWriter(new ImageWriter("Cube", 500, 500)) //
+				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(true)) //
+				.renderImage()
+				.writeToImage("Final");
+	}
+	public static void groupPictureWithThreads() {
+
+		/*
+		camera.setImageWriter(new ImageWriter("group picture without effects", 500, 500)) //
+				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(false)) //
+				.renderImage() //
+				.writeToImage("all");
+
+		 */
+		scene.geometries = new Geometries().addAll(cube.getGeometry());
+		camera.setImageWriter(new ImageWriter("threads", 500, 500)) //
+				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(true)) //
+				.renderImageWithThread()
+				.writeToImage("Final");
+		/*
+		scene.geometries = new Geometries(cube,cube1);
+		camera.setImageWriter(new ImageWriter("group picture with effects & cube", 500, 500)) //
+				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(true)) //
+				.renderImage() //
+				.writeToImage("all");
+		 */
+
+
+	}
+	public static void groupPicture_CubeAndThreads() {
+		/*
+		camera.setImageWriter(new ImageWriter("group picture without effects", 500, 500)) //
+				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(false)) //
+				.renderImage() //
+				.writeToImage("all");
+
+		 */
+		scene.geometries=new Geometries(cube);
+		camera.setImageWriter(new ImageWriter("Cube+Threads", 500, 500)) //
+				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(true)) //
+				.renderImageWithThread()
+				.writeToImage("Final");
+	}
+	public static void setSceneAndCamera(){
+		scene = new Scene("new group picture");
+
+		camera = new Camera(new Point(0, -10, 30), new Vector(0, 1, 0), new Vector(0, 0, 1)) //
 				.setVPSize(500, 500).setVPDistance(500).rotationUp(-25);
 
 		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0.1));
@@ -384,72 +374,58 @@ public final class Main {
 				.setKl(1E-15).setKq(1.5E-21));
 		//scene.ambientLight = new AmbientLight(new Color(35, 70, 120), 0.3);
 		scene.background = Color.GREEN;
-		//Cube cube1 = new Cube(new Point(-13,10,0), new Point(15,90,40));
-		Cube cube1 = new Cube(new Point(-200,-200,-200), new Point(200,200,200));
-
+		Cube cube1 = new Cube(new Point(-13,10,0), new Point(15,90,40));
 
 		//sphere adding
 		cube1.add(
-				new Sphere(sphre1Point,3)
-						.setEmission(Color.BLUE.scale(0.3))
-						.setMaterial(new Material().setKd(0.15).setKs(1).setShininess(70).setKr(0.6)),
-				new Sphere(new Point(0,23,12),3)
-						.setEmission(Color.BLUE.scale(0.5))
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(10).setKt(0.8).setKr(0.5)),
-				new Triangle(new Point(6,35,12),new Point(-8,41,12),new Point(0,41,18))
-						.setEmission(Color.BLUE.scale(0.5))
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.8).setBlurry(5)),
-				new Triangle(new Point(12,80,12),new Point(-14,80,12),new Point(0,75,35))
-						.setEmission(Color.BLACK)
-						.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(8))
+				new Cube(new Point(-11,17,1),new Point(-5,23,7)).add(
+						new Sphere(sphre1Point,3)
+								.setEmission(Color.BLUE.scale(0.3))
+								.setMaterial(new Material().setKd(0.15).setKs(1).setShininess(70).setKr(0.6))),
+				new Cube(new Point(-3,20,9),new Point(6,26,15)).add(
+						new Sphere(new Point(0,23,12),3)
+								.setEmission(Color.BLUE.scale(0.5))
+								.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(10).setKt(0.8).setKr(0.5))),
+				new Cube(new Point(-8,35,12),new Point(6,41,18)).add(
+						new Triangle(new Point(6,35,12),new Point(-8,41,12),new Point(0,41,18))
+								.setEmission(Color.BLUE.scale(0.5))
+								.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKt(0.8).setBlurry(5))),
+				new Cube(new Point(-14,75,12), new Point(12,80,35)).add(
+						new Triangle(new Point(12,80,12),new Point(-14,80,12),new Point(0,75,35))
+								.setEmission(Color.BLACK)
+								.setMaterial(new Material().setKd(0.25).setKs(0.50).setShininess(5).setKr(1).setGlossy(8)))
 		);
 		// the floor
 		Material mat = new Material().setKd(1).setKs(0.5).setShininess(2);
 		int size = 15;
-		Cube cube = new Cube(new Point(-50,0,-0.5), new Point(50+size,100+size,0.5));
-		//Cube cube = new Cube(new Point(-1,0,-0.5), new Point(2,0.1,0.5));
-		//Cube cube = new Cube(new Point(-200,-200,-200), new Point(200,200,200));
+		Cube cube2 = new Cube(new Point(-50,0,-0.1), new Point(50+size,100+size,0.1));
 		for (int x = -50; x < 50; x += size) {
-			//	for (int x = -20; x < 20; x += size) {
 			for (int y = 0; y < 100; y += size) {
-				//		for (int y = 0; y < 60; y += size) {
 				if ((x + y+50) % (2*size) == 0)
-					cube.add(
-							new Triangle(new Point(x, y, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
-									.setEmission(Color.RED.scale(0.6))
-									.setMaterial(mat),
-							new Triangle(new Point(x + size, y + size, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
-									.setEmission(Color.RED.scale(0.6))
-									.setMaterial(mat)
+					cube2.add(
+							new Cube(new Point(x,y,-0.1),new Point(x+size,y+size,0.1)).add(
+									new Triangle(new Point(x, y, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
+											.setEmission(Color.RED.scale(0.6))
+											.setMaterial(mat),
+									new Triangle(new Point(x + size, y + size, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
+											.setEmission(Color.RED.scale(0.6))
+											.setMaterial(mat))
 					);
 				else
-					cube.add(
+					cube2.add(new Cube(new Point(x,y,-0.1),new Point(x+size,y+size,0.1)).add(
 							new Triangle(new Point(x, y, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
 									.setEmission(Color.YELLOW.scale(0.6))
 									.setMaterial(mat),
 							new Triangle(new Point(x + size, y + size, 0), new Point(x + size, y, 0), new Point(x, y + size, 0))
 									.setEmission(Color.YELLOW.scale(0.6))
-									.setMaterial(mat)
+									.setMaterial(mat))
 
 					);
 			}
 		}
-
-		/*
-		camera.setImageWriter(new ImageWriter("group picture without effects", 500, 500)) //
-				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(false)) //
-				.renderImage() //
-				.writeToImage("all");
-
-		 */
-
-		scene.geometries = new Geometries(cube,cube1);
-		camera.setImageWriter(new ImageWriter("group picture with effects & cube", 500, 500)) //
-				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(true)) //
-				.renderImageWithThread() //
-				.writeToImage("all");
+		cube=new Cube(new Point(-50,0,-0.1),new Point(50+size,100+size,35));
+		cube.add(cube1,cube2);
 	}
-
 
 	public static void groupPictureThread() {
 		Scene scene = new Scene("new group picture");
