@@ -7,12 +7,22 @@ import java.util.List;
 public class Cube extends Intersectable {
     Point[] bounds = new Point[2];
 
+    Geometries geometry = new Geometries(); //all the shapes that is in this cube.
+
+    /**
+     * getter for geometries field.
+     * @return Geometries type object.
+     */
     public Geometries getGeometry() {
         return geometry;
     }
 
-    Geometries geometry = new Geometries(); //all the shapes that is in this cube.
-
+    /**
+     * ctor for cube class, gets tow opposite points, that determine a cube,
+     * notice that the cube is not always a cube, it could be a rectangle.
+     * @param min Point type of lower point of cube.
+     * @param max Point type of the opposite higher point (in diagonal).
+     */
     public Cube(Point min, Point max) {
         this.bounds[0] = min;
         this.bounds[1] = max;
@@ -32,6 +42,12 @@ public class Cube extends Intersectable {
             return null;
         return geometry.findGeoIntersectionsHelper(ray,maxDistance);
     }
+
+    /**
+     * an add function to add shapes into cube list.
+     * @param geometries representing the shapes that should be helo by cube.
+     * @return this for builder design patern.
+     */
     public Cube add(Intersectable... geometries) {
 
         geometry.add(geometries);
@@ -39,6 +55,11 @@ public class Cube extends Intersectable {
         return this;
     }
 
+    /**
+     * determine rather a ray intersects with the cube or not.
+     * @param r the ray in query.
+     * @return true if it intersects, false otherwise,
+     */
     boolean intersect(Ray r) {
         int[] sign = new int[3];
         //Vector invdir=r.getDir().scale(-1);
