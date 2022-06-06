@@ -26,13 +26,13 @@ public final class Main {
 		setSceneAndCamera();
 		var start = System.currentTimeMillis();
 		out.println(start);
-		groupPicture();
+		//groupPicture();
 		var middle1 = System.currentTimeMillis();
 		out.println("first picture (no improvements): " + (middle1 - start) / 1000 + "sec");
-		groupPicture_Cube();
+		//groupPicture_Cube();
 		var middle2 = System.currentTimeMillis();
 		out.println("second picture (cube): " + (middle2 - middle1) / 1000 + "sec");
-		groupPictureWithThreads();
+		//groupPictureWithThreads();
 		var middle3 = System.currentTimeMillis();
 		out.println("third picture (threads): " + (middle3 - middle2) / 1000 + "sec");
 		groupPicture_CubeAndThreads();
@@ -352,7 +352,7 @@ public final class Main {
 
 		 */
 		scene.geometries=new Geometries(cube);
-		camera.setImageWriter(new ImageWriter("Cube+Threads", 500, 500)) //
+		camera.setImageWriter(new ImageWriter("Cube+Threads-good", 500, 500)) //
 				.setRayTracer(new RayTracerBasic(scene).setGlussyAndBlurry(true)) //
 				.renderImageWithThread()
 				.writeToImage("Final");
@@ -397,7 +397,7 @@ public final class Main {
 		);
 		// the floor
 		Material mat = new Material().setKd(1).setKs(0.5).setShininess(2);
-		int size = 15;
+		int size = 5;
 		Cube cube2 = new Cube(new Point(-50,0,-0.1), new Point(50+size,100+size,0.1));
 		for (int x = -50; x < 50; x += size) {
 			for (int y = 0; y < 100; y += size) {
