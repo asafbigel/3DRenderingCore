@@ -103,6 +103,19 @@ You can create your own scenes by adding new methods to `Main.java` and building
 
 ---
 
+## Rendered Images
+
+Below are two example renders produced by the engine. Place the corresponding image files in the `images/Final/` folder with the names shown below so they display here.
+
+- Sample scene (spheres, pyramids, checker floor):
+
+![Sample scene render](images/Final/sample_scene.png)
+
+- DNA-like spiral render:
+
+![DNA Spiral render](images/Final/dna_spiral.png)
+
+
 ## Authors
 
 - **Ron Shaull**
