@@ -1,6 +1,5 @@
 package geometries;
 
-import org.junit.jupiter.engine.descriptor.TestInstanceLifecycleUtils;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
