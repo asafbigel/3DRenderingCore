@@ -92,9 +92,11 @@ The project is organized into a clean and modular structure:
 
 ## Code Examples
 
-The `Main.java` file contains several methods that demonstrate the engine's capabilities. To render a specific scene, simply uncomment the corresponding method call in the `main()` method.
+The `Main.java` file contains several methods that demonstrate the engine's capabilities. The `main()` method is currently set up to run a performance benchmark.
 
-- **`groupPicture()`:** Renders a scene with multiple objects and advanced effects like reflection and transparency, comparing the performance of different optimizations (multi-threading, BVH).
+To render other scenes, you can modify the `main()` method to call one of the following static methods:
+
+- **`groupPicture()`:** Renders a scene with multiple objects and advanced effects like reflection and transparency.
 - **`Helicopter()`:** Renders a helicopter model built from various geometric primitives, showcasing how to create complex objects.
 - **`DNA()`:** Creates a DNA-like spiral structure using spheres, demonstrating the use of mathematical formulas to place objects in a scene.
 - **`testGlossy()` and `testBlurry()`:** These methods specifically test the glossy and blurry material effects on simple scenes.

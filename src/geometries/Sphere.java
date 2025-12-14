@@ -1,6 +1,5 @@
 package geometries;
 
-import org.junit.jupiter.engine.descriptor.TestInstanceLifecycleUtils;
 import primitives.*;
 
 import java.util.ArrayList;
